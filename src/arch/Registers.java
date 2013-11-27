@@ -17,16 +17,16 @@ public class Registers {
 
 		this.specialRegisters.put("ID/EX.A", 0L);
 		this.specialRegisters.put("ID/EX.B", 0L);
-		this.specialRegisters.put("ID/EX.Imm", 0L);
+		this.specialRegisters.put("ID/EX.IMM", 0L);
 		this.specialRegisters.put("ID/EX.IR", 0L);
 		this.specialRegisters.put("ID/EX.NPC", 0L);
 
-		this.specialRegisters.put("EX/MEM.ALUOutput", 0L);
-		this.specialRegisters.put("EX/MEM.Cond", 0L);
+		this.specialRegisters.put("EX/MEM.ALUOUTPUT", 0L);
+//		this.specialRegisters.put("EX/MEM.Cond", 0L);
 		this.specialRegisters.put("EX/MEM.IR", 0L);
 		this.specialRegisters.put("EX/MEM.B", 0L);
 
-		this.specialRegisters.put("MEM/WB.ALUOutput", 0L);
+		this.specialRegisters.put("MEM/WB.ALUOUTPUT", 0L);
 		this.specialRegisters.put("MEM/WB.LMD", 0L);
 		this.specialRegisters.put("MEM/WB.IR", 0L);
 	}
