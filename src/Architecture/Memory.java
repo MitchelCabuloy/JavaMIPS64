@@ -15,4 +15,8 @@ public class Memory {
 	public int getMemoryAddress(int address) {
 		return this.memory_[address];
 	}
+	
+	public void setMemoryAddress(int address, int value){
+		this.memory_[address] = value;
+	}
 }
