@@ -3,32 +3,32 @@ package arch;
 import java.util.HashMap;
 
 public class Registers {
-	private long programCounter;
 	private long[] registers;
 	private HashMap<String, Long> specialRegisters;
 
 	public Registers() {
 		this.registers = new long[0x20];
-		this.programCounter = 0;
 		this.specialRegisters = new HashMap<String, Long>();
+		
+		this.specialRegisters.put("PC", 0L);
 
-		this.specialRegisters.put("IF/ID.IR", new Long(0));
-		this.specialRegisters.put("IF/ID.NPC", new Long(0));
+		this.specialRegisters.put("IF/ID.IR", 0L);
+		this.specialRegisters.put("IF/ID.NPC", 0L);
 
-		this.specialRegisters.put("ID/EX.A", new Long(0));
-		this.specialRegisters.put("ID/EX.B", new Long(0));
-		this.specialRegisters.put("ID/EX.Imm", new Long(0));
-		this.specialRegisters.put("ID/EX.IR", new Long(0));
-		this.specialRegisters.put("ID/EX.NPC", new Long(0));
+		this.specialRegisters.put("ID/EX.A", 0L);
+		this.specialRegisters.put("ID/EX.B", 0L);
+		this.specialRegisters.put("ID/EX.Imm", 0L);
+		this.specialRegisters.put("ID/EX.IR", 0L);
+		this.specialRegisters.put("ID/EX.NPC", 0L);
 
-		this.specialRegisters.put("EX/MEM.ALUOutput", new Long(0));
-		this.specialRegisters.put("EX/MEM.Cond", new Long(0));
-		this.specialRegisters.put("EX/MEM.IR", new Long(0));
-		this.specialRegisters.put("EX/MEM.B", new Long(0));
+		this.specialRegisters.put("EX/MEM.ALUOutput", 0L);
+		this.specialRegisters.put("EX/MEM.Cond", 0L);
+		this.specialRegisters.put("EX/MEM.IR", 0L);
+		this.specialRegisters.put("EX/MEM.B", 0L);
 
-		this.specialRegisters.put("MEM/WB.ALUOutput", new Long(0));
-		this.specialRegisters.put("MEM/WB.LMD", new Long(0));
-		this.specialRegisters.put("MEM/WB.IR", new Long(0));
+		this.specialRegisters.put("MEM/WB.ALUOutput", 0L);
+		this.specialRegisters.put("MEM/WB.LMD", 0L);
+		this.specialRegisters.put("MEM/WB.IR", 0L);
 	}
 
 	// For numbered Registers (R0, R1, R2)
