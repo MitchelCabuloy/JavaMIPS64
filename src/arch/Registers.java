@@ -51,6 +51,7 @@ public class Registers {
 
 	// For Special Registers
 	public long getRegister(String register) throws RegisterOutOfBoundsException{
+		register = register.toUpperCase();
 		if (this.specialRegisters.containsKey(register))
 			return this.specialRegisters.get(register);
 		else
@@ -59,6 +60,7 @@ public class Registers {
 
 	public void setRegister(String register, long value)
 			throws RegisterOutOfBoundsException {
+		register = register.toUpperCase();
 		if (this.specialRegisters.containsKey(register))
 			this.specialRegisters.put(register, value);
 		else
