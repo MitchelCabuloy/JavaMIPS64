@@ -1,4 +1,4 @@
-package Architecture;
+package arch;
 
 import java.util.ArrayList;
 
