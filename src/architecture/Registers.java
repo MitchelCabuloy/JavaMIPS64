@@ -1,4 +1,4 @@
-package arch;
+package architecture;
 
 import java.util.HashMap;
 

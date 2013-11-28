@@ -1,6 +1,8 @@
+import simulator.MIPSController;
+
 
 public class Driver {
 	public static void main(String[] args){
-		new arch.MIPSController();
+		new MIPSController();
 	}
 }

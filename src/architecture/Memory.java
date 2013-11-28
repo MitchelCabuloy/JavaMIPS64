@@ -1,6 +1,4 @@
-package arch;
-
-import java.util.ArrayList;
+package architecture;
 
 public class Memory {
 	private int[] memory_;

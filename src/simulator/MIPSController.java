@@ -1,4 +1,8 @@
-package arch;
+package simulator;
+
+
+import architecture.Memory;
+import architecture.Registers;
 
 public class MIPSController {
 	private Memory memory;
@@ -7,5 +11,7 @@ public class MIPSController {
 	public MIPSController(){
 		this.memory = new Memory();
 		this.registers = new Registers();
+		
+		new Loader();
 	}
 }
