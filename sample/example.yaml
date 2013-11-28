@@ -1,0 +1,9 @@
+registers:
+    R1: 0xFFFFFFFFFFFFFFFF
+    R2: 0x0000000000000001
+memory:
+    0x1000: 0x1000
+    0x1001: 0x2000
+code: |
+    DADD R3, R1, R2
+    XOR R4, R1, R2
