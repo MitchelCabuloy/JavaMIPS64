@@ -1,6 +1,8 @@
 registers:
     R1: 0xFFFFFFFFFFFFFFFF
     R2: 0x0000000000000001
+    R3: 0x123
+    R31: 0x123123
 memory:
     0x1000: 0x1000
     0x1001: 0x2000

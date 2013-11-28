@@ -66,6 +66,12 @@ public class Registers {
 		else
 			throw new RegisterOutOfBoundsException(register);
 	}
+	
+	public void seeRegisters(){
+		for(Long value : this.registers){
+			System.out.println(String.format("%016x", value));
+		}
+	}
 }
 
 class RegisterOutOfBoundsException extends Exception {
