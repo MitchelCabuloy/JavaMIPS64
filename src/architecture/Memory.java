@@ -17,4 +17,13 @@ public class Memory {
 	public void setMemoryAddress(int address, int value){
 		this.memory_[address] = value;
 	}
+	
+	public void seeMemory(){
+		int i = 0;
+		for(Integer value : this.memory_){
+			if(value != 0)
+				System.out.println(i + ": " + value);
+			i++;
+		}
+	}
 }

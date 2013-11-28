@@ -5,7 +5,7 @@ registers:
     R31: 0x123123
 memory:
     0x1000: 0x1000
-    0x1001: 0x2000
+    0x1001: 0xFFFF
 code: |
     DADD R3, R1, R2
     XOR R4, R1, R2
