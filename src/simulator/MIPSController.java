@@ -11,7 +11,5 @@ public class MIPSController {
 	public MIPSController(){
 		this.memory = new Memory();
 		this.registers = new Registers();
-		
-		new Loader();
 	}
 }
