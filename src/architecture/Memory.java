@@ -18,6 +18,7 @@ public class Memory {
 		this.memory_[address] = value;
 	}
 	
+	// Debug code
 	public void seeMemory(){
 		int i = 0;
 		for(Integer value : this.memory_){

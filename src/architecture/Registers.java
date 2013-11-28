@@ -67,9 +67,13 @@ public class Registers {
 			throw new RegisterOutOfBoundsException(register);
 	}
 	
+	// Debug code
 	public void seeRegisters(){
+		int i = 0;
 		for(Long value : this.registers){
-			System.out.println(String.format("%016x", value));
+			if(value != 0)
+				System.out.println(String.format("R%02d: %016x", i, value));
+			i++;
 		}
 	}
 }
