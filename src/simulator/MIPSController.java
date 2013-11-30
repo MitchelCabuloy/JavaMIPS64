@@ -10,10 +10,10 @@ import architecture.Memory;
 import architecture.Registers;
 
 public class MIPSController {
-	public static void main(String[] args){
+	public static void main(String[] args) {
 		new MIPSController();
 	}
-	
+
 	private Memory memory;
 	private Registers registers;
 
@@ -43,6 +43,8 @@ public class MIPSController {
 			String register = entry.getKey();
 			Long value = 0L;
 
+			// We need because YAML loads data based on their size, but we
+			// ALWAYS need a Long value.
 			if (entry.getValue() instanceof Integer)
 				value = new Long((Integer) entry.getValue());
 			else if (entry.getValue() instanceof Long)
@@ -66,8 +68,8 @@ public class MIPSController {
 
 			this.memory.setMemoryAddress(address, value);
 		}
-		
-//		Save changes to registers
+
+		// Save changes to registers
 		this.registers.commit();
 	}
 }
