@@ -71,5 +71,8 @@ public class MIPSController {
 
 		// Save changes to registers
 		this.registers.commit();
+
+		// Save changes to memory
+		this.memory.commit();
 	}
 }

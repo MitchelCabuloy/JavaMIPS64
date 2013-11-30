@@ -74,20 +74,22 @@ public class Registers {
 		else
 			throw new RegisterOutOfBoundsException(register);
 	}
-	
-	public void clearTransactions(){
+
+	public void cancelTransaction() {
 		this.transactions.clear();
 	}
 
 	public void commit() {
 		for (Entry entry : this.transactions.entrySet()) {
-			if (entry.getKey() instanceof Integer ) {
-				this.registers[(Integer) entry.getKey()] = (Long) entry.getValue();
-			}else if(entry.getKey() instanceof String){
-				this.specialRegisters.put((String) entry.getKey(), (Long) entry.getValue());
+			if (entry.getKey() instanceof Integer) {
+				this.registers[(Integer) entry.getKey()] = (Long) entry
+						.getValue();
+			} else if (entry.getKey() instanceof String) {
+				this.specialRegisters.put((String) entry.getKey(),
+						(Long) entry.getValue());
 			}
 		}
-		
+
 		this.transactions.clear();
 	}
 

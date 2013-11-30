@@ -42,8 +42,8 @@ public class Program {
 	public Map<String, Object> getRegisters() {
 		return this.registers;
 	}
-	
-	public Map<Integer, Integer> getMemory(){
+
+	public Map<Integer, Integer> getMemory() {
 		return this.memory;
 	}
 }
