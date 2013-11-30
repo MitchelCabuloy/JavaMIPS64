@@ -66,5 +66,8 @@ public class MIPSController {
 
 			this.memory.setMemoryAddress(address, value);
 		}
+		
+//		Save changes to registers
+		this.registers.commit();
 	}
 }
