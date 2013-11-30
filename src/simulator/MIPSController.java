@@ -10,6 +10,10 @@ import architecture.Memory;
 import architecture.Registers;
 
 public class MIPSController {
+	public static void main(String[] args){
+		new MIPSController();
+	}
+	
 	private Memory memory;
 	private Registers registers;
 
