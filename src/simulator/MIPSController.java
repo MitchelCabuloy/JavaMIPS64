@@ -62,11 +62,8 @@ public class MIPSController {
 			}
 		}
 
-		for (Entry<Integer, Integer> entry : program.getMemory().entrySet()) {
-			Integer address = entry.getKey();
-			Integer value = entry.getValue();
-
-			this.memory.setMemoryAddress(address, value);
+		for (Entry<Integer, Byte> entry : program.getMemory().entrySet()) {
+			this.memory.setMemoryAddress(entry.getKey(), entry.getValue());
 		}
 
 		// Save changes to registers

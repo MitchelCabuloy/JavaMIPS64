@@ -4,8 +4,10 @@ registers:
     R3: 0x123
     R31: 0x123123
 memory:
-    0x1000: 0x1000
-    0x1001: 0xFFFF
+    0x1000: 127
+    0x1001: 128
+    0x1002: 129
+    0x1003: 2000
 code: |
     DADD R3, R1, R2
     XOR R4, R1, R2
