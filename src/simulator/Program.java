@@ -34,14 +34,15 @@ public class Program {
 				map = (Map) yaml.load((String) document);
 
 			this.registers = (LinkedHashMap) map.get("registers");
-			
+
 			this.memory = new HashMap<Integer, Byte>();
-			Map<Integer, Integer> memoryHash = (LinkedHashMap) map.get("memory");
-			for(Entry<Integer, Integer> entry : memoryHash.entrySet() ){
+			Map<Integer, Integer> memoryHash = (LinkedHashMap) map
+					.get("memory");
+			for (Entry<Integer, Integer> entry : memoryHash.entrySet()) {
 				this.memory.put(entry.getKey(), entry.getValue().byteValue());
 			}
-			
-//			this.memory = (LinkedHashMap) map.get("memory");
+
+			// this.memory = (LinkedHashMap) map.get("memory");
 			this.code = new ArrayList<String>(Arrays.asList(((String) map
 					.get("code")).split("\n")));
 		}

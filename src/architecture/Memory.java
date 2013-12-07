@@ -32,36 +32,38 @@ public class Memory {
 			throw new MemoryOutOfRangeException(address);
 		}
 	}
-	
-	public int getCodeSegment(int lineNumber){
-		// If line number is within 0 && 0x400 lines (because of 0 to 0x1000 code segment)
-		if(lineNumber >= 0 && lineNumber < 0x400){
+
+	public int getCodeSegment(int lineNumber) {
+		// If line number is within 0 && 0x400 lines (because of 0 to 0x1000
+		// code segment)
+		if (lineNumber >= 0 && lineNumber < 0x400) {
 			int address = lineNumber * 4;
-			
+
 			ByteBuffer buffer = ByteBuffer.allocate(4);
 			buffer.order(ByteOrder.BIG_ENDIAN);
 
-			for(int i = 0; i < 4; i++){
+			for (int i = 0; i < 4; i++) {
 				buffer.put(this.memory[address + i]);
 			}
-			
+
 			buffer.rewind();
 			return buffer.getInt();
 		} else {
 			throw new CodeSegmentOutOfRangeException(lineNumber);
 		}
 	}
-	
-	public void setCodeSegment(int lineNumber, int code){
-		// If line number is within 0 && 0x400 lines (because of 0 to 0x1000 code segment)
-		if(lineNumber >= 0 && lineNumber < 0x400){
+
+	public void setCodeSegment(int lineNumber, int code) {
+		// If line number is within 0 && 0x400 lines (because of 0 to 0x1000
+		// code segment)
+		if (lineNumber >= 0 && lineNumber < 0x400) {
 			ByteBuffer buffer = ByteBuffer.allocate(4);
 			buffer.order(ByteOrder.BIG_ENDIAN);
 			buffer.putInt(code);
-			
+
 			byte[] codeSegment = buffer.array();
 			int address = lineNumber * 4;
-			for(int i = 0; i < 4; i++){
+			for (int i = 0; i < 4; i++) {
 				this.memory[address + i] = codeSegment[i];
 			}
 		} else {
@@ -104,12 +106,12 @@ class MemoryOutOfRangeException extends RuntimeException {
 	}
 }
 
-class CodeSegmentOutOfRangeException extends RuntimeException{
-	public CodeSegmentOutOfRangeException(){
+class CodeSegmentOutOfRangeException extends RuntimeException {
+	public CodeSegmentOutOfRangeException() {
 		super("Code segment entered is out of range");
 	}
-	
-	public CodeSegmentOutOfRangeException(int lineNumber){
+
+	public CodeSegmentOutOfRangeException(int lineNumber) {
 		super("Code segment " + lineNumber + " is out of range");
 	}
 }

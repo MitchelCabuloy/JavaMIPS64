@@ -87,17 +87,13 @@ public class MIPSController {
 		registers.setRegister("ID/EX.A", ByteUtils.getRS((int) ID_IR));
 		registers.setRegister("ID/EX.B", ByteUtils.getRT((int) ID_IR));
 		registers.setRegister("ID/EX.Imm", ByteUtils.getImm((int) ID_IR));
-		
+
 		// Execute
-		
-		
+
 		// Memory
-		
-		
+
 		// Write back
-		
-		
-		
+
 		registers.commit();
 		memory.commit();
 	}

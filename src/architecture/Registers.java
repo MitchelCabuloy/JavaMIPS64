@@ -15,13 +15,13 @@ public class Registers {
 		this.specialRegisters.put("PC", 0L);
 
 		this.specialRegisters.put("IF/ID.IR", 0L);
-//		this.specialRegisters.put("IF/ID.NPC", 0L);
+		// this.specialRegisters.put("IF/ID.NPC", 0L);
 
 		this.specialRegisters.put("ID/EX.A", 0L);
 		this.specialRegisters.put("ID/EX.B", 0L);
 		this.specialRegisters.put("ID/EX.IMM", 0L);
 		this.specialRegisters.put("ID/EX.IR", 0L);
-//		this.specialRegisters.put("ID/EX.NPC", 0L);
+		// this.specialRegisters.put("ID/EX.NPC", 0L);
 
 		this.specialRegisters.put("EX/MEM.ALUOUTPUT", 0L);
 		// this.specialRegisters.put("EX/MEM.Cond", 0L);
@@ -36,7 +36,7 @@ public class Registers {
 	}
 
 	// For numbered Registers (R0, R1, R2)
-	public long getRegister(int number){
+	public long getRegister(int number) {
 		if (number == 0)
 			// For R0
 			return 0;
@@ -46,7 +46,7 @@ public class Registers {
 			throw new RegisterOutOfBoundsException(number);
 	}
 
-	public void setRegister(int number, long value){
+	public void setRegister(int number, long value) {
 		if (number > 0 && number < 32)
 			// this.registers[number] = value;
 			this.transactions.put(number, value);
@@ -55,7 +55,7 @@ public class Registers {
 	}
 
 	// For Special Registers
-	public long getRegister(String register){
+	public long getRegister(String register) {
 		register = register.toUpperCase();
 		if (this.specialRegisters.containsKey(register))
 			return this.specialRegisters.get(register);
@@ -63,7 +63,7 @@ public class Registers {
 			throw new RegisterOutOfBoundsException(register);
 	}
 
-	public void setRegister(String register, long value){
+	public void setRegister(String register, long value) {
 		register = register.toUpperCase();
 		if (this.specialRegisters.containsKey(register))
 			// this.specialRegisters.put(register, value);
