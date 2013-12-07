@@ -6,6 +6,7 @@ import java.io.FileNotFoundException;
 import java.math.BigInteger;
 import java.util.Map.Entry;
 
+import util.ByteUtils;
 import architecture.Memory;
 import architecture.Registers;
 
@@ -21,11 +22,12 @@ public class MIPSController {
 		this.memory = new Memory();
 		this.registers = new Registers();
 
+		// Default file
+		// Debugging only
 		FileInputStream document = null;
 		try {
 			document = new FileInputStream(new File("sample/example.yaml"));
 		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
@@ -38,7 +40,6 @@ public class MIPSController {
 	}
 
 	private void loadProgram(Program program) {
-
 		for (Entry<String, Object> entry : program.getRegisters().entrySet()) {
 			String register = entry.getKey();
 			Long value = 0L;
@@ -71,5 +72,33 @@ public class MIPSController {
 
 		// Save changes to memory
 		this.memory.commit();
+	}
+
+	private void step() {
+		// Instruction fetch
+		// Set IF/ID.IR to Memory[PC]
+		registers.setRegister("IF/ID.IR",
+				memory.getCodeSegment((int) (registers.getRegister("PC") / 4)));
+		// Pipeline #2 doesn't have NPC
+
+		// Instruction decode
+		long ID_IR = registers.getRegister("IF/ID.IR"); // previous value
+		registers.setRegister("ID/EX.IR", ID_IR);
+		registers.setRegister("ID/EX.A", ByteUtils.getRS((int) ID_IR));
+		registers.setRegister("ID/EX.B", ByteUtils.getRT((int) ID_IR));
+		registers.setRegister("ID/EX.Imm", ByteUtils.getImm((int) ID_IR));
+		
+		// Execute
+		
+		
+		// Memory
+		
+		
+		// Write back
+		
+		
+		
+		registers.commit();
+		memory.commit();
 	}
 }
