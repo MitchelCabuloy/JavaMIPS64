@@ -71,8 +71,13 @@ public class MIPSController {
 		}
 		
 		// TODO: Place code that saves the code to the code segment here
-		// this.memory.setCodeSegment(0, 0xDC411000);
-		// this.memory.setCodeSegment(1, 0x60030002);
+		// You can get the code in program.code
+		// int lineNumber = 0;
+		// for(String code : program.getCode()){
+		//     int codeSegment = Decoder.decode(code);
+		//     this.memory.setCodeSegment(lineNumber, codeSegment);
+		//     lineNumber++;
+		// }
 
 		// Save changes to registers
 		this.registers.commit();

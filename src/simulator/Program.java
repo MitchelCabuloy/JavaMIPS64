@@ -55,4 +55,8 @@ public class Program {
 	public Map<Integer, Byte> getMemory() {
 		return this.memory;
 	}
+	
+	public ArrayList<String> getCode(){
+		return this.code;
+	}
 }
