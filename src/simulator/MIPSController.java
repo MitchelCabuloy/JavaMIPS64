@@ -34,12 +34,15 @@ public class MIPSController {
 		Program program = new Program(document);
 
 		loadProgram(program);
-
+		
+		// For debugging
 		this.registers.seeRegisters();
 		this.memory.seeMemory();
 	}
 
 	private void loadProgram(Program program) {
+		
+		// Load registers
 		for (Entry<String, Object> entry : program.getRegisters().entrySet()) {
 			String register = entry.getKey();
 			Long value = 0L;
@@ -58,14 +61,18 @@ public class MIPSController {
 						Integer.parseInt(register.replaceAll("R(\\d+)", "$1")),
 						value);
 			} catch (Exception e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
-
+		
+		// Load memory
 		for (Entry<Integer, Byte> entry : program.getMemory().entrySet()) {
 			this.memory.setMemoryAddress(entry.getKey(), entry.getValue());
 		}
+		
+		// TODO: Place code that saves the code to the code segment here
+		// this.memory.setCodeSegment(0, 0xDC411000);
+		// this.memory.setCodeSegment(1, 0x60030002);
 
 		// Save changes to registers
 		this.registers.commit();
