@@ -1,5 +1,7 @@
 package architecture;
 
+import java.nio.ByteBuffer;
+import java.nio.ByteOrder;
 import java.util.HashMap;
 import java.util.Map.Entry;
 
@@ -15,7 +17,7 @@ public class Memory {
 		this.transactions = new HashMap<Integer, Byte>();
 	}
 
-	public int getMemoryAddress(int address) {
+	public byte getMemoryAddress(int address) {
 		if (address >= 0x1000 && address < 0x2000) {
 			return this.memory[address];
 		} else {
@@ -34,18 +36,33 @@ public class Memory {
 	public int getCodeSegment(int lineNumber){
 		// If line number is within 0 && 0x400 lines (because of 0 to 0x1000 code segment)
 		if(lineNumber >= 0 && lineNumber < 0x400){
-			return this.memory[lineNumber * 4];
+			int address = lineNumber * 4;
+			
+			ByteBuffer buffer = ByteBuffer.allocate(4);
+			buffer.order(ByteOrder.BIG_ENDIAN);
+
+			for(int i = 0; i < 4; i++){
+				buffer.put(this.memory[address + i]);
+			}
+			
+			buffer.rewind();
+			return buffer.getInt();
 		} else {
 			throw new CodeSegmentOutOfRangeException(lineNumber);
 		}
 	}
 	
-	public void setCodeSegment(int lineNumber, byte[] code){
+	public void setCodeSegment(int lineNumber, int code){
 		// If line number is within 0 && 0x400 lines (because of 0 to 0x1000 code segment)
 		if(lineNumber >= 0 && lineNumber < 0x400){
+			ByteBuffer buffer = ByteBuffer.allocate(4);
+			buffer.order(ByteOrder.BIG_ENDIAN);
+			buffer.putInt(code);
+			
+			byte[] codeSegment = buffer.array();
 			int address = lineNumber * 4;
 			for(int i = 0; i < 4; i++){
-				this.memory[address + i] = code[i];
+				this.memory[address + i] = codeSegment[i];
 			}
 		} else {
 			throw new CodeSegmentOutOfRangeException(lineNumber);
