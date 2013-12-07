@@ -15,13 +15,13 @@ public class Registers {
 		this.specialRegisters.put("PC", 0L);
 
 		this.specialRegisters.put("IF/ID.IR", 0L);
-		this.specialRegisters.put("IF/ID.NPC", 0L);
+//		this.specialRegisters.put("IF/ID.NPC", 0L);
 
 		this.specialRegisters.put("ID/EX.A", 0L);
 		this.specialRegisters.put("ID/EX.B", 0L);
 		this.specialRegisters.put("ID/EX.IMM", 0L);
 		this.specialRegisters.put("ID/EX.IR", 0L);
-		this.specialRegisters.put("ID/EX.NPC", 0L);
+//		this.specialRegisters.put("ID/EX.NPC", 0L);
 
 		this.specialRegisters.put("EX/MEM.ALUOUTPUT", 0L);
 		// this.specialRegisters.put("EX/MEM.Cond", 0L);
