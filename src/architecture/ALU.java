@@ -8,12 +8,17 @@ public class ALU {
 		// R Type
 		case 0:
 			switch(ByteUtils.getFunc((int) IR)){
+			
 			case 38: // XOR
 				return registers.getRegister("ID/EX.A") ^ registers.getRegister("ID/EX.B");
 			case 44: // DADD
 				return registers.getRegister("ID/EX.A") + registers.getRegister("ID/EX.B");
 			}
 			break;
+			
+		case 55: // LD
+		case 63: // SD
+			return ByteUtils.getImm((int) IR) + registers.getRegister("ID/EX.A");
 		}
 		
 		return 0L;
