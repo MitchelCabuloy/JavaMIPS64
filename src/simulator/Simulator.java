@@ -97,7 +97,19 @@ public class Simulator {
 	registers.setRegister("MEM/WB.IR", registers.getRegister("EX/MEM.IR"));
 
 	// Write back
-	// Depends on command
+	switch (ByteUtils.getOpcode((int) registers.getRegister("MEM/WB.IR"))) {
+	case 0: // R-Type. Save in ALU Output in RD
+	case 24: // DADDI. Do the same
+	    registers.setRegister(ByteUtils.getRD((int) ByteUtils
+		    .getOpcode((int) registers.getRegister("MEM/WB.IR"))),
+		    registers.getRegister("MEM/WB.ALUOUTPUT"));
+	    break;
+	case 55: // LD. Save LMD to RT
+	    registers.setRegister(
+		    ByteUtils.getRT((int) registers.getRegister("MEM/WB.IR")),
+		    registers.getRegister("MEM/WB.LMD"));
+	    break;
+	}
 
 	registers.commit();
 	memory.commit();
