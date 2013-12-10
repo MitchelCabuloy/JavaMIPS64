@@ -77,10 +77,18 @@ public class Simulator {
 		registers.setRegister("ID/EX.Imm", ByteUtils.getImm((int) ID_IR));
 
 		// Execute
+		// ALUOutput 2
+		
+		registers.setRegister("EX/MEM.IR", registers.getRegister("ID/EX.IR"));
+		registers.setRegister("EX/MEM.B", registers.getRegister("ID/EX.B"));
 
 		// Memory
-
+		// LMD
+		registers.setRegister("MEM/WB.ALUOUTPUT", registers.getRegister("EX/MEM.ALUOUTPUT"));
+		registers.setRegister("MEM/WB.IR", registers.getRegister("EX/MEM.IR"));
+		
 		// Write back
+		// Depends on command
 
 		registers.commit();
 		memory.commit();
