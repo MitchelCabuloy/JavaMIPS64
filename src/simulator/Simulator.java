@@ -4,6 +4,7 @@ import java.math.BigInteger;
 import java.util.Map.Entry;
 
 import util.ByteUtils;
+import architecture.ALU;
 import architecture.Memory;
 import architecture.Registers;
 
@@ -70,23 +71,26 @@ public class Simulator {
 		// Pipeline #2 doesn't have NPC
 
 		// Instruction decode
-		long ID_IR = registers.getRegister("IF/ID.IR"); // previous value
-		registers.setRegister("ID/EX.IR", ID_IR);
-		registers.setRegister("ID/EX.A", ByteUtils.getRS((int) ID_IR));
-		registers.setRegister("ID/EX.B", ByteUtils.getRT((int) ID_IR));
-		registers.setRegister("ID/EX.Imm", ByteUtils.getImm((int) ID_IR));
+		registers.setRegister("ID/EX.IR", registers.getRegister("IF/ID.IR"));
+		registers.setRegister("ID/EX.A",
+				ByteUtils.getRS((int) registers.getRegister("IF/ID.IR")));
+		registers.setRegister("ID/EX.B",
+				ByteUtils.getRT((int) registers.getRegister("IF/ID.IR")));
+		registers.setRegister("ID/EX.Imm",
+				ByteUtils.getImm((int) registers.getRegister("IF/ID.IR")));
 
 		// Execute
-		// ALUOutput 2
-		
+		registers.setRegister("EX/MEM.ALUOUTPUT", ALU.getOutput(
+				registers.getRegister("ID/EX.IR"), registers, memory));
 		registers.setRegister("EX/MEM.IR", registers.getRegister("ID/EX.IR"));
 		registers.setRegister("EX/MEM.B", registers.getRegister("ID/EX.B"));
 
 		// Memory
 		// LMD
-		registers.setRegister("MEM/WB.ALUOUTPUT", registers.getRegister("EX/MEM.ALUOUTPUT"));
+		registers.setRegister("MEM/WB.ALUOUTPUT",
+				registers.getRegister("EX/MEM.ALUOUTPUT"));
 		registers.setRegister("MEM/WB.IR", registers.getRegister("EX/MEM.IR"));
-		
+
 		// Write back
 		// Depends on command
 
