@@ -5,31 +5,31 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 
 public class MIPSController {
-    public static void main(String[] args) {
-	new MIPSController();
-    }
-
-    private Simulator simulator;
-
-    public MIPSController() {
-	this.simulator = new Simulator();
-
-	// Default file
-	// Debugging only
-	FileInputStream document = null;
-	try {
-	    document = new FileInputStream(new File("sample/example.yaml"));
-	} catch (FileNotFoundException e) {
-	    e.printStackTrace();
+	public static void main(String[] args) {
+		new MIPSController();
 	}
 
-	Program program = new Program(document);
+	private Simulator simulator;
 
-	this.simulator.loadProgram(program);
+	public MIPSController() {
+		this.simulator = new Simulator();
 
-	// For debugging
-	// this.registers.seeRegisters();
-	// this.memory.seeMemory();
-    }
+		// Default file
+		// Debugging only
+		FileInputStream document = null;
+		try {
+			document = new FileInputStream(new File("sample/example.yaml"));
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		}
+
+		Program program = new Program(document);
+
+		this.simulator.loadProgram(program);
+
+		// For debugging
+		// this.registers.seeRegisters();
+		// this.memory.seeMemory();
+	}
 
 }

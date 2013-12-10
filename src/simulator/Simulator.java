@@ -9,110 +9,110 @@ import architecture.Memory;
 import architecture.Registers;
 
 public class Simulator {
-    private Memory memory;
-    private Registers registers;
+	private Memory memory;
+	private Registers registers;
 
-    public Simulator() {
-	this.memory = new Memory();
-	this.registers = new Registers();
-    }
-
-    public void loadProgram(Program program) {
-
-	// Load registers
-	for (Entry<String, Object> entry : program.getRegisters().entrySet()) {
-	    String register = entry.getKey();
-	    Long value = 0L;
-
-	    // We need because YAML loads data based on their size, but we
-	    // ALWAYS need a Long value.
-	    if (entry.getValue() instanceof Integer)
-		value = new Long((Integer) entry.getValue());
-	    else if (entry.getValue() instanceof Long)
-		value = (Long) entry.getValue();
-	    else if (entry.getValue() instanceof BigInteger)
-		value = ((BigInteger) entry.getValue()).longValue();
-
-	    try {
-		this.registers.setRegister(
-			Integer.parseInt(register.replaceAll("R(\\d+)", "$1")),
-			value);
-	    } catch (Exception e) {
-		e.printStackTrace();
-	    }
+	public Simulator() {
+		this.memory = new Memory();
+		this.registers = new Registers();
 	}
 
-	// Load memory
-	for (Entry<Integer, Byte> entry : program.getMemory().entrySet()) {
-	    this.memory.setMemoryAddress(entry.getKey(), entry.getValue());
+	public void loadProgram(Program program) {
+
+		// Load registers
+		for (Entry<String, Object> entry : program.getRegisters().entrySet()) {
+			String register = entry.getKey();
+			Long value = 0L;
+
+			// We need because YAML loads data based on their size, but we
+			// ALWAYS need a Long value.
+			if (entry.getValue() instanceof Integer)
+				value = new Long((Integer) entry.getValue());
+			else if (entry.getValue() instanceof Long)
+				value = (Long) entry.getValue();
+			else if (entry.getValue() instanceof BigInteger)
+				value = ((BigInteger) entry.getValue()).longValue();
+
+			try {
+				this.registers.setRegister(
+						Integer.parseInt(register.replaceAll("R(\\d+)", "$1")),
+						value);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+
+		// Load memory
+		for (Entry<Integer, Byte> entry : program.getMemory().entrySet()) {
+			this.memory.setMemoryAddress(entry.getKey(), entry.getValue());
+		}
+
+		// TODO: Place code that saves the code to the code segment here
+		// You can get the code in program.code
+		// int lineNumber = 0;
+		// for(String code : program.getCode()){
+		// int codeSegment = Decoder.decode(code);
+		// this.memory.setCodeSegment(lineNumber, codeSegment);
+		// lineNumber++;
+		// }
+
+		// Save changes to registers
+		this.registers.commit();
+
+		// Save changes to memory
+		this.memory.commit();
 	}
 
-	// TODO: Place code that saves the code to the code segment here
-	// You can get the code in program.code
-	// int lineNumber = 0;
-	// for(String code : program.getCode()){
-	// int codeSegment = Decoder.decode(code);
-	// this.memory.setCodeSegment(lineNumber, codeSegment);
-	// lineNumber++;
-	// }
+	public void step() {
+		// Instruction fetch
+		// Set IF/ID.IR to Memory[PC]
+		registers.setRegister("IF/ID.IR",
+				memory.getCodeSegment((int) (registers.getRegister("PC") / 4)));
+		// Pipeline #2 doesn't have NPC
 
-	// Save changes to registers
-	this.registers.commit();
+		// Instruction decode
+		registers.setRegister("ID/EX.IR", registers.getRegister("IF/ID.IR"));
+		registers.setRegister("ID/EX.A",
+				ByteUtils.getRS((int) registers.getRegister("IF/ID.IR")));
+		registers.setRegister("ID/EX.B",
+				ByteUtils.getRT((int) registers.getRegister("IF/ID.IR")));
+		registers.setRegister("ID/EX.Imm",
+				ByteUtils.getImm((int) registers.getRegister("IF/ID.IR")));
 
-	// Save changes to memory
-	this.memory.commit();
-    }
+		// Execute
+		registers.setRegister("EX/MEM.ALUOUTPUT", ALU.getOutput(
+				registers.getRegister("ID/EX.IR"), registers, memory));
+		registers.setRegister("EX/MEM.IR", registers.getRegister("ID/EX.IR"));
+		registers.setRegister("EX/MEM.B", registers.getRegister("ID/EX.B"));
 
-    public void step() {
-	// Instruction fetch
-	// Set IF/ID.IR to Memory[PC]
-	registers.setRegister("IF/ID.IR",
-		memory.getCodeSegment((int) (registers.getRegister("PC") / 4)));
-	// Pipeline #2 doesn't have NPC
+		// Memory
+		switch (ByteUtils.getOpcode((int) registers.getRegister("EX/MEM.IR"))) {
+		case 55: // LD
+			registers.setRegister("MEM/WB.LMD", Memory.getLMD(
+					registers.getRegister("EX/MEM.IR"), registers, memory));
+			break;
+		}
+		registers.setRegister("MEM/WB.ALUOUTPUT",
+				registers.getRegister("EX/MEM.ALUOUTPUT"));
+		registers.setRegister("MEM/WB.IR", registers.getRegister("EX/MEM.IR"));
 
-	// Instruction decode
-	registers.setRegister("ID/EX.IR", registers.getRegister("IF/ID.IR"));
-	registers.setRegister("ID/EX.A",
-		ByteUtils.getRS((int) registers.getRegister("IF/ID.IR")));
-	registers.setRegister("ID/EX.B",
-		ByteUtils.getRT((int) registers.getRegister("IF/ID.IR")));
-	registers.setRegister("ID/EX.Imm",
-		ByteUtils.getImm((int) registers.getRegister("IF/ID.IR")));
+		// Write back
+		switch (ByteUtils.getOpcode((int) registers.getRegister("MEM/WB.IR"))) {
+		case 0: // R-Type. Save in ALU Output in RD
+		case 24: // DADDI. Do the same
+			registers.setRegister(ByteUtils.getRD((int) ByteUtils
+					.getOpcode((int) registers.getRegister("MEM/WB.IR"))),
+					registers.getRegister("MEM/WB.ALUOUTPUT"));
+			break;
+		case 55: // LD. Save LMD to RT
+			registers.setRegister(
+					ByteUtils.getRT((int) registers.getRegister("MEM/WB.IR")),
+					registers.getRegister("MEM/WB.LMD"));
+			break;
+		}
 
-	// Execute
-	registers.setRegister("EX/MEM.ALUOUTPUT", ALU.getOutput(
-		registers.getRegister("ID/EX.IR"), registers, memory));
-	registers.setRegister("EX/MEM.IR", registers.getRegister("ID/EX.IR"));
-	registers.setRegister("EX/MEM.B", registers.getRegister("ID/EX.B"));
-
-	// Memory
-	switch (ByteUtils.getOpcode((int) registers.getRegister("EX/MEM.IR"))) {
-	case 55: // LD
-	    registers.setRegister("MEM/WB.LMD", Memory.getLMD(
-		    registers.getRegister("EX/MEM.IR"), registers, memory));
-	    break;
+		registers.commit();
+		memory.commit();
 	}
-	registers.setRegister("MEM/WB.ALUOUTPUT",
-		registers.getRegister("EX/MEM.ALUOUTPUT"));
-	registers.setRegister("MEM/WB.IR", registers.getRegister("EX/MEM.IR"));
-
-	// Write back
-	switch (ByteUtils.getOpcode((int) registers.getRegister("MEM/WB.IR"))) {
-	case 0: // R-Type. Save in ALU Output in RD
-	case 24: // DADDI. Do the same
-	    registers.setRegister(ByteUtils.getRD((int) ByteUtils
-		    .getOpcode((int) registers.getRegister("MEM/WB.IR"))),
-		    registers.getRegister("MEM/WB.ALUOUTPUT"));
-	    break;
-	case 55: // LD. Save LMD to RT
-	    registers.setRegister(
-		    ByteUtils.getRT((int) registers.getRegister("MEM/WB.IR")),
-		    registers.getRegister("MEM/WB.LMD"));
-	    break;
-	}
-
-	registers.commit();
-	memory.commit();
-    }
 
 }
