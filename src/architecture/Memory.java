@@ -5,6 +5,8 @@ import java.nio.ByteOrder;
 import java.util.HashMap;
 import java.util.Map.Entry;
 
+import util.ByteUtils;
+
 public class Memory {
 	private byte[] memory;
 	private HashMap<Integer, Byte> transactions;
@@ -81,6 +83,16 @@ public class Memory {
 		}
 
 		this.transactions.clear();
+	}
+	
+	public static long getLMD(long IR, Registers registers, Memory memory){
+		int address = (int) registers.getRegister("EX/MEM.ALUOUTPUT");
+		String byteString = "";
+		for(int i = 0; i < 4; i++) {
+			byteString += byteString + String.format("%8s", Integer.toBinaryString(memory.getMemoryAddress(address + i) & 0xFF)).replace(' ', '0');
+		}
+		
+		return Long.parseLong(byteString, 2);
 	}
 
 	// Debug code

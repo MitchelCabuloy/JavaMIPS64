@@ -86,7 +86,11 @@ public class Simulator {
 		registers.setRegister("EX/MEM.B", registers.getRegister("ID/EX.B"));
 
 		// Memory
-		// LMD
+		switch(ByteUtils.getOpcode((int) registers.getRegister("EX/MEM.IR"))){
+		case 55: // LD
+			registers.setRegister("MEM/WB.LMD", memory.getLMD(registers.getRegister("EX/MEM.IR"), registers, memory));
+			break;
+		}
 		registers.setRegister("MEM/WB.ALUOUTPUT",
 				registers.getRegister("EX/MEM.ALUOUTPUT"));
 		registers.setRegister("MEM/WB.IR", registers.getRegister("EX/MEM.IR"));
