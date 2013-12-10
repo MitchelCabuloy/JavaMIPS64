@@ -33,6 +33,12 @@ public class Main extends JFrame {
     private JPanel contentPane;
     private JTable registers;
     private JTable specialRegisters;
+    private JMenuItem mntmNew;
+    private JMenuItem mntmSaveAs;
+    private JMenu mnFile;
+    private JMenu mnEdit;
+    private JTextArea code;
+    private JTextArea pipelineMap;
 
     /**
      * Create the frame.
@@ -45,19 +51,19 @@ public class Main extends JFrame {
 	JMenuBar menuBar = new JMenuBar();
 	setJMenuBar(menuBar);
 
-	JMenu mnFile = new JMenu("File");
+	mnFile = new JMenu("File");
 	mnFile.setForeground(new Color(51, 51, 51));
 	menuBar.add(mnFile);
 
-	JMenuItem mntmNew = new JMenuItem("New");
+	mntmNew = new JMenuItem("New");
 	mntmNew.setForeground(new Color(51, 51, 51));
 	mnFile.add(mntmNew);
 
-	JMenuItem mntmSaveAs = new JMenuItem("Save As");
+	mntmSaveAs = new JMenuItem("Save As");
 	mntmSaveAs.setForeground(new Color(51, 51, 51));
 	mnFile.add(mntmSaveAs);
 
-	JMenu mnEdit = new JMenu("Edit");
+	mnEdit = new JMenu("Edit");
 	mnEdit.setForeground(new Color(51, 51, 51));
 	menuBar.add(mnEdit);
 
@@ -71,25 +77,25 @@ public class Main extends JFrame {
 	setContentPane(contentPane);
 	contentPane.setLayout(null);
 
-	JTextArea code = new JTextArea();
+	code = new JTextArea();
 	code.setBounds(35, 40, 250, 300);
 	contentPane.add(code);
 
-	JTextArea pipelineMap = new JTextArea();
+	pipelineMap = new JTextArea();
 	pipelineMap.setBounds(35, 420, 825, 180);
 	contentPane.add(pipelineMap);
 
-	JLabel lblNewLabel = new JLabel("Registers");
-	lblNewLabel.setFont(new Font("Tahoma", Font.PLAIN, 11));
-	lblNewLabel.setForeground(new Color(51, 51, 51));
-	lblNewLabel.setBounds(320, 20, 100, 15);
-	contentPane.add(lblNewLabel);
+	JLabel lblRegisters = new JLabel("Registers");
+	lblRegisters.setFont(new Font("Tahoma", Font.PLAIN, 11));
+	lblRegisters.setForeground(new Color(51, 51, 51));
+	lblRegisters.setBounds(320, 20, 100, 15);
+	contentPane.add(lblRegisters);
 
-	JLabel label = new JLabel("Code");
-	label.setFont(new Font("Tahoma", Font.PLAIN, 11));
-	label.setForeground(new Color(51, 51, 51));
-	label.setBounds(35, 20, 100, 15);
-	contentPane.add(label);
+	JLabel lblCode = new JLabel("Code");
+	lblCode.setFont(new Font("Tahoma", Font.PLAIN, 11));
+	lblCode.setForeground(new Color(51, 51, 51));
+	lblCode.setBounds(35, 20, 100, 15);
+	contentPane.add(lblCode);
 
 	JLabel lblPipelineMap = new JLabel("Pipeline Map");
 	lblPipelineMap.setFont(new Font("Tahoma", Font.PLAIN, 11));
@@ -97,9 +103,9 @@ public class Main extends JFrame {
 	lblPipelineMap.setBounds(35, 400, 100, 15);
 	contentPane.add(lblPipelineMap);
 
-	JScrollPane scrollPane = new JScrollPane();
-	scrollPane.setBounds(320, 40, 250, 300);
-	contentPane.add(scrollPane);
+	JScrollPane spRegisters = new JScrollPane();
+	spRegisters.setBounds(320, 40, 250, 300);
+	contentPane.add(spRegisters);
 
 	registers = new JTable();
 	registers.setEnabled(false);
@@ -119,17 +125,17 @@ public class Main extends JFrame {
 			{ null, null }, { null, null }, { null, null },
 			{ null, null }, { null, null }, { null, null }, },
 		new String[] { "Registers", "Value" }));
-	scrollPane.setViewportView(registers);
+	spRegisters.setViewportView(registers);
 
-	JButton btnNewButton = new JButton("Submit");
-	btnNewButton.setForeground(new Color(51, 51, 51));
-	btnNewButton.setBackground(UIManager.getColor("Button.background"));
-	btnNewButton.setBounds(35, 350, 89, 23);
-	contentPane.add(btnNewButton);
+	JButton btnSubmit = new JButton("Submit");
+	btnSubmit.setForeground(new Color(51, 51, 51));
+	btnSubmit.setBackground(UIManager.getColor("Button.background"));
+	btnSubmit.setBounds(35, 350, 89, 23);
+	contentPane.add(btnSubmit);
 
-	JScrollPane scrollPane_1 = new JScrollPane();
-	scrollPane_1.setBounds(605, 40, 250, 144);
-	contentPane.add(scrollPane_1);
+	JScrollPane spSpecialRegisters = new JScrollPane();
+	spSpecialRegisters.setBounds(605, 40, 250, 144);
+	contentPane.add(spSpecialRegisters);
 
 	specialRegisters = new JTable();
 	specialRegisters.setEnabled(false);
@@ -141,7 +147,7 @@ public class Main extends JFrame {
 		{ null, null }, { null, null }, { null, null }, { null, null },
 		{ null, null }, }, new String[] { "Registers", "Value" }));
 	specialRegisters.setBounds(605, 40, 250, 144);
-	scrollPane_1.setViewportView(specialRegisters);
+	spSpecialRegisters.setViewportView(specialRegisters);
 
 	JLabel lblSpecialRegisters = new JLabel("Special Registers");
 	lblSpecialRegisters.setFont(new Font("Tahoma", Font.PLAIN, 11));
@@ -149,4 +155,37 @@ public class Main extends JFrame {
 	lblSpecialRegisters.setBounds(605, 20, 111, 15);
 	contentPane.add(lblSpecialRegisters);
     }
+
+    public JMenuItem getMntmNew() {
+	return mntmNew;
+    }
+
+    public JMenuItem getMntmSaveAs() {
+	return mntmSaveAs;
+    }
+
+    public JMenu getMnFile() {
+	return mnFile;
+    }
+
+    public JMenu getMnEdit() {
+	return mnEdit;
+    }
+
+    public JTextArea getCode() {
+	return code;
+    }
+
+    public JTextArea getPipelineMap() {
+	return pipelineMap;
+    }
+
+    public JTable getRegisters() {
+	return registers;
+    }
+
+    public JTable getSpecialRegisters() {
+	return specialRegisters;
+    }
+
 }
