@@ -26,10 +26,10 @@ public class MIPSController {
 		Program program = new Program(document);
 
 		this.simulator.loadProgram(program);
-
-		// For debugging
-		// this.registers.seeRegisters();
-		// this.memory.seeMemory();
+		
+		for(int i = 0; i < 5; i++){
+			this.simulator.step();
+		}
 	}
 
 }

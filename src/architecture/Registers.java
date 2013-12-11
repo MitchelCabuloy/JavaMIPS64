@@ -47,7 +47,10 @@ public class Registers {
 	}
 
 	public void setRegister(int number, long value) {
-		if (number > 0 && number < 32)
+		if(number == 0){
+			// Silently fail if someone is trying to set R0
+		}
+		else if (number > 0 && number < 32)
 			// this.registers[number] = value;
 			this.transactions.put(number, value);
 		else
@@ -66,7 +69,6 @@ public class Registers {
 	public void setRegister(String register, long value) {
 		register = register.toUpperCase();
 		if (this.specialRegisters.containsKey(register))
-			// this.specialRegisters.put(register, value);
 			this.transactions.put(register, value);
 		else
 			throw new RegisterOutOfBoundsException(register);
@@ -97,6 +99,9 @@ public class Registers {
 			if (value != 0)
 				System.out.println(String.format("R%02d: %016x", i, value));
 			i++;
+		}
+		for(Entry<String, Long> entry : this.specialRegisters.entrySet()){
+			System.out.println(String.format("%s: %016x", entry.getKey(), entry.getValue()));
 		}
 	}
 }

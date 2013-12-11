@@ -56,11 +56,18 @@ public class Simulator {
 		// lineNumber++;
 		// }
 
+		// Debugging code while decoder not yet implemented
+		this.memory.setCodeSegment(0, 0x0023282C); // DADD R5, R1, R3
+
 		// Save changes to registers
 		this.registers.commit();
 
 		// Save changes to memory
 		this.memory.commit();
+
+		System.out.println("Initial");
+		this.registers.seeRegisters();
+//		this.memory.seeMemory();
 	}
 
 	public void step() {
@@ -74,10 +81,10 @@ public class Simulator {
 
 		// Instruction decode
 		registers.setRegister("ID/EX.IR", registers.getRegister("IF/ID.IR"));
-		registers.setRegister("ID/EX.A",
-				ByteUtils.getRS((int) registers.getRegister("IF/ID.IR")));
-		registers.setRegister("ID/EX.B",
-				ByteUtils.getRT((int) registers.getRegister("IF/ID.IR")));
+		registers.setRegister("ID/EX.A", registers.getRegister(ByteUtils
+				.getRS((int) registers.getRegister("IF/ID.IR"))));
+		registers.setRegister("ID/EX.B", registers.getRegister(ByteUtils
+				.getRT((int) registers.getRegister("IF/ID.IR"))));
 		registers.setRegister("ID/EX.Imm",
 				ByteUtils.getImm((int) registers.getRegister("IF/ID.IR")));
 		// Set PC here because Pipeline #2
@@ -112,10 +119,14 @@ public class Simulator {
 
 		// Write back
 		switch (ByteUtils.getOpcode((int) registers.getRegister("MEM/WB.IR"))) {
-		case 0: // R-Type. Save in ALU Output in RD
-		case 24: // DADDI. Do the same
-			registers.setRegister(ByteUtils.getRD((int) ByteUtils
-					.getOpcode((int) registers.getRegister("MEM/WB.IR"))),
+		case 0: // R-Type. Save ALU Output in RD
+			registers.setRegister(
+					ByteUtils.getRD((int) registers.getRegister("MEM/WB.IR")),
+					registers.getRegister("MEM/WB.ALUOUTPUT"));
+			break;
+		case 24: // DADDI. Save ALU Output in RT
+			registers.setRegister(
+					ByteUtils.getRT((int) registers.getRegister("MEM/WB.IR")),
 					registers.getRegister("MEM/WB.ALUOUTPUT"));
 			break;
 		case 55: // LD. Save LMD to RT
@@ -127,5 +138,9 @@ public class Simulator {
 
 		registers.commit();
 		memory.commit();
+
+		System.out.println("STEP");
+		this.registers.seeRegisters();
+		// this.memory.seeMemory();
 	}
 }

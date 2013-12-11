@@ -23,19 +23,16 @@ public class ByteUtils {
 
 	public static int getOpcode(Integer codeSegment) {
 		String RS = parseCodeSegment(codeSegment);
-		// System.out.println(RS.substring(0, 6));
 		return Integer.parseInt(RS.substring(0, 6), 2);
 	}
 
 	public static int getRS(Integer codeSegment) {
 		String RS = parseCodeSegment(codeSegment);
-		// System.out.println(RS.substring(6, 11));
 		return Integer.parseInt(RS.substring(6, 11), 2);
 	}
 
 	public static int getRT(Integer codeSegment) {
 		String RS = parseCodeSegment(codeSegment);
-		// System.out.println(RS.substring(11, 16));
 		return Integer.parseInt(RS.substring(11, 16), 2);
 	}
 
@@ -47,19 +44,16 @@ public class ByteUtils {
 
 	public static int getImm(Integer codeSegment) {
 		String RS = parseCodeSegment(codeSegment);
-		// System.out.println(RS.substring(16, 32));
 		return Integer.parseInt(RS.substring(16, 32), 2);
 	}
 
 	public static int getFunc(Integer codeSegment) {
 		String RS = parseCodeSegment(codeSegment);
-		// System.out.println(RS.substring(16, 32));
 		return Integer.parseInt(RS.substring(26, 32), 2);
 	}
 	
 	public static int getJOffset(Integer codeSegment) {
 		String RS = parseCodeSegment(codeSegment);
-		// System.out.println(RS.substring(16, 32));
 		return Integer.parseInt(RS.substring(6, 32), 2);
 	}
 }
