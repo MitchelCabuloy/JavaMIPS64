@@ -68,6 +68,8 @@ public class Simulator {
 		// Set IF/ID.IR to Memory[PC]
 		registers.setRegister("IF/ID.IR",
 				memory.getCodeSegment((int) (registers.getRegister("PC") / 4)));
+		// Set PC <- PC + 4
+		registers.setRegister("PC", registers.getRegister("PC") + 4);
 		// Pipeline #2 doesn't have NPC
 
 		// Instruction decode
@@ -78,6 +80,18 @@ public class Simulator {
 				ByteUtils.getRT((int) registers.getRegister("IF/ID.IR")));
 		registers.setRegister("ID/EX.Imm",
 				ByteUtils.getImm((int) registers.getRegister("IF/ID.IR")));
+		// Set PC here because Pipeline #2
+		if (ByteUtils.getOpcode((int) registers.getRegister("IF/ID.IR")) == 3) { // J
+			registers.setRegister("PC", ByteUtils.getJOffset((int) registers
+					.getRegister("IF/ID.IR")) * 4);
+		} else if (ByteUtils.getOpcode((int) registers.getRegister("IF/ID.IR")) == 5
+				&& ByteUtils.getRS((int) registers.getRegister("IF/ID.IR")) != 0) { // BNEZ
+			registers.setRegister(
+					"PC",
+					registers.getRegister("PC")
+							+ (ByteUtils.getImm((int) registers
+									.getRegister("IF/ID.IR")) * 4));
+		}
 
 		// Execute
 		registers.setRegister("EX/MEM.ALUOUTPUT", ALU.getOutput(
@@ -114,5 +128,4 @@ public class Simulator {
 		registers.commit();
 		memory.commit();
 	}
-
 }
