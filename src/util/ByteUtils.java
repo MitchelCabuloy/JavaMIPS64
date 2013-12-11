@@ -56,4 +56,10 @@ public class ByteUtils {
 		// System.out.println(RS.substring(16, 32));
 		return Integer.parseInt(RS.substring(26, 32), 2);
 	}
+	
+	public static int getJOffset(Integer codeSegment) {
+		String RS = parseCodeSegment(codeSegment);
+		// System.out.println(RS.substring(16, 32));
+		return Integer.parseInt(RS.substring(6, 32), 2);
+	}
 }
