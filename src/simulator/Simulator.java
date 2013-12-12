@@ -57,7 +57,7 @@ public class Simulator {
 		// }
 
 		// Debugging code while decoder not yet implemented
-		this.memory.setCodeSegment(0, 0x0023282C); // DADD R5, R1, R3
+		this.memory.setCodeSegment(0, 0x00221825); // OR R3, R1, R2
 
 		// Save changes to registers
 		this.registers.commit();

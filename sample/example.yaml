@@ -1,5 +1,6 @@
 registers:
-    R1: 0x5
+    R1: 0x4C
+    R2: 0x26
     R31: 0x5
 memory:
     0x1000: 127
@@ -7,5 +8,4 @@ memory:
     0x1002: 129
     0x1003: 2000
 code: |
-    DADD R3, R1, R2
-    XOR R4, R1, R2
+    OR R3, R1, R2
