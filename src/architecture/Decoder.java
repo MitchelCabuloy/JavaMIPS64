@@ -95,10 +95,10 @@ public class Decoder {
 							IR_size -= opcode_size;
 							result |= (rs << IR_size - rs_size); 
 							IR_size -= rs_size;
-							result |= (rd << IR_size - rd_size); 
-							IR_size -= rd_size;
 							result |= (rt << IR_size - rt_size);
 							IR_size -= rt_size;
+							result |= (rd << IR_size - rd_size); 
+							IR_size -= rd_size;
 							result |= (zero << IR_size - zero_size);
 							IR_size -= zero_size;
 							result |= (command_func << IR_size - func_size);
