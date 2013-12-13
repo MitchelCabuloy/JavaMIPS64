@@ -40,6 +40,8 @@ public class Main extends JFrame {
 	private JTable memory;
 	private JMenuItem mntmLoadProgram;
 	private JMenuItem mntmSaveProgram;
+	private JButton btnStep;
+	private JButton btnRun;
 
 	/**
 	 * Create the frame.
@@ -69,7 +71,7 @@ public class Main extends JFrame {
 		contentPane.setLayout(null);
 
 		code = new JTextArea();
-		code.setBounds(30, 44, 250, 150);
+		code.setBounds(30, 44, 350, 150);
 		contentPane.add(code);
 
 		JLabel lblRegisters = new JLabel("Registers");
@@ -180,7 +182,7 @@ public class Main extends JFrame {
 		spMemory.setViewportView(memory);
 		
 		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(300, 44, 850, 150);
+		scrollPane.setBounds(415, 44, 735, 150);
 		contentPane.add(scrollPane);
 		
 		opcode = new JTable();
@@ -211,7 +213,7 @@ public class Main extends JFrame {
 		JLabel lblOpcode = new JLabel("Opcode Translation");
 		lblOpcode.setForeground(new Color(51, 51, 51));
 		lblOpcode.setFont(new Font("Tahoma", Font.PLAIN, 11));
-		lblOpcode.setBounds(300, 24, 100, 15);
+		lblOpcode.setBounds(415, 24, 100, 15);
 		contentPane.add(lblOpcode);
 		
 		JScrollPane spPipeline = new JScrollPane();
@@ -239,6 +241,18 @@ public class Main extends JFrame {
 			}
 		));
 		spPipeline.setViewportView(pipelineMap);
+		
+		btnStep = new JButton("Step");
+		btnStep.setForeground(new Color(51, 51, 51));
+		btnStep.setBackground(SystemColor.window);
+		btnStep.setBounds(122, 200, 80, 20);
+		contentPane.add(btnStep);
+		
+		btnRun = new JButton("Run");
+		btnRun.setForeground(new Color(51, 51, 51));
+		btnRun.setBackground(SystemColor.window);
+		btnRun.setBounds(214, 200, 80, 20);
+		contentPane.add(btnRun);
 	}
 
 	public JMenu getMnFile() {
@@ -270,5 +284,11 @@ public class Main extends JFrame {
 	}
 	public JMenuItem getMntmSaveProgram() {
 		return mntmSaveProgram;
+	}
+	public JButton getBtnStep() {
+		return btnStep;
+	}
+	public JButton getBtnRun() {
+		return btnRun;
 	}
 }
