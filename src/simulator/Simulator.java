@@ -5,6 +5,7 @@ import java.util.Map.Entry;
 
 import util.ByteUtils;
 import architecture.ALU;
+import architecture.Decoder;
 import architecture.Memory;
 import architecture.Registers;
 
@@ -67,15 +68,15 @@ public class Simulator {
 
 		// TODO: Place code that saves the code to the code segment here
 		// You can get the code in program.code
-		// int lineNumber = 0;
-		// for(String code : program.getCode()){
-		// int codeSegment = Decoder.decode(code);
-		// this.memory.setCodeSegment(lineNumber, codeSegment);
-		// lineNumber++;
-		// }
+		 int lineNumber = 0;
+		 for(String code : program.getCode()){
+			 int codeSegment = Decoder.decode(code);
+			 this.memory.setCodeSegment(lineNumber, codeSegment);
+			 lineNumber++;
+		 }
 
-		// Debugging code while decoder not yet implemented
-		this.memory.setCodeSegment(0, 0x00221825); // OR R3, R1, R2
+//		// Debugging code while decoder not yet implemented
+//		this.memory.setCodeSegment(0, 0x00231025); // OR R3, R1, R2
 
 		// Save changes to registers
 		this.registers.commit();
