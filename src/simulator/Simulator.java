@@ -18,22 +18,24 @@ public class Simulator {
 	}
 
 	public Memory getMemory() {
-	    return memory;
+		return memory;
 	}
 
 	public void setMemory(Memory memory) {
-	    this.memory = memory;
+		this.memory = memory;
 	}
 
 	public Registers getRegisters() {
-	    return registers;
+		return registers;
 	}
 
 	public void setRegisters(Registers registers) {
-	    this.registers = registers;
+		this.registers = registers;
 	}
 
 	public void loadProgram(Program program) {
+		this.memory = new Memory();
+		this.registers = new Registers();
 
 		// Load registers
 		for (Entry<String, Object> entry : program.getRegisters().entrySet()) {
@@ -83,7 +85,7 @@ public class Simulator {
 
 		System.out.println("Initial");
 		this.registers.seeRegisters();
-//		this.memory.seeMemory();
+		// this.memory.seeMemory();
 	}
 
 	public void step() {

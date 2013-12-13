@@ -39,7 +39,7 @@ import java.awt.event.ActionListener;
 
 public class Main extends JFrame {
 
-    	private MIPSController controller;
+	private MIPSController controller;
 	private JPanel contentPane;
 	private JTable registers;
 	private JTable specialRegisters;
@@ -55,10 +55,11 @@ public class Main extends JFrame {
 
 	/**
 	 * Create the frame.
-	 * @param mipsController 
+	 * 
+	 * @param mipsController
 	 */
 	public Main(MIPSController mipsController) {
-	    	controller = mipsController;
+		controller = mipsController;
 		setResizable(false);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 1185, 685);
@@ -69,10 +70,10 @@ public class Main extends JFrame {
 		mnFile = new JMenu("File");
 		mnFile.setForeground(new Color(51, 51, 51));
 		menuBar.add(mnFile);
-		
+
 		mntmLoadProgram = new JMenuItem("Load Program");
 		mnFile.add(mntmLoadProgram);
-		
+
 		mntmSaveProgram = new JMenuItem("Save Program");
 		mnFile.add(mntmSaveProgram);
 		contentPane = new JPanel();
@@ -109,19 +110,19 @@ public class Main extends JFrame {
 		registers.setForeground(new Color(51, 51, 51));
 		registers.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null,
 				null, null));
-//		registers.setModel(new DefaultTableModel(
-//				new Object[][] { { null, null }, { null, null },
-//						{ null, null }, { null, null }, { null, null },
-//						{ null, null }, { null, null }, { null, null },
-//						{ null, null }, { null, null }, { null, null },
-//						{ null, null }, { null, null }, { null, null },
-//						{ null, null }, { null, null }, { null, null },
-//						{ null, null }, { null, null }, { null, null },
-//						{ null, null }, { null, null }, { null, null },
-//						{ null, null }, { null, null }, { null, null },
-//						{ null, null }, { null, null }, { null, null },
-//						{ null, null }, { null, null }, { null, null }, },
-//				new String[] { "Registers", "Value" }));
+		// registers.setModel(new DefaultTableModel(
+		// new Object[][] { { null, null }, { null, null },
+		// { null, null }, { null, null }, { null, null },
+		// { null, null }, { null, null }, { null, null },
+		// { null, null }, { null, null }, { null, null },
+		// { null, null }, { null, null }, { null, null },
+		// { null, null }, { null, null }, { null, null },
+		// { null, null }, { null, null }, { null, null },
+		// { null, null }, { null, null }, { null, null },
+		// { null, null }, { null, null }, { null, null },
+		// { null, null }, { null, null }, { null, null },
+		// { null, null }, { null, null }, { null, null }, },
+		// new String[] { "Registers", "Value" }));
 		spRegisters.setViewportView(registers);
 
 		JButton btnLoad = new JButton("Load");
@@ -151,139 +152,127 @@ public class Main extends JFrame {
 		lblSpecialRegisters.setFont(new Font("Tahoma", Font.PLAIN, 11));
 		lblSpecialRegisters.setForeground(new Color(51, 51, 51));
 		contentPane.add(lblSpecialRegisters);
-		
+
 		JLabel lblMemory = new JLabel("Memory");
 		lblMemory.setBounds(800, 230, 111, 15);
 		lblMemory.setForeground(new Color(51, 51, 51));
 		lblMemory.setFont(new Font("Tahoma", Font.PLAIN, 11));
 		contentPane.add(lblMemory);
-		
+
 		JScrollPane spMemory = new JScrollPane();
 		spMemory.setBounds(800, 250, 350, 150);
 		contentPane.add(spMemory);
-		
+
 		memory = new JTable();
 		memory.setEnabled(false);
-		memory.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
-		memory.setModel(new DefaultTableModel(
-			new Object[][] {
-				{null, null},
-				{null, null},
-				{null, null},
-				{null, null},
-				{null, null},
-				{null, null},
-				{null, null},
-				{null, null},
-				{null, null},
-				{null, null},
-				{null, null},
-				{null, null},
-				{null, null},
-				{null, null},
-				{null, null},
-			},
-			new String[] {
-				"Address", "Value"
-			}
-		));
+		memory.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null,
+				null));
+		memory.setModel(new DefaultTableModel(new Object[][] { { null, null },
+				{ null, null }, { null, null }, { null, null }, { null, null },
+				{ null, null }, { null, null }, { null, null }, { null, null },
+				{ null, null }, { null, null }, { null, null }, { null, null },
+				{ null, null }, { null, null }, }, new String[] { "Address",
+				"Value" }));
 		spMemory.setViewportView(memory);
-		
+
 		JScrollPane spOpcode = new JScrollPane();
 		spOpcode.setBounds(415, 44, 735, 150);
 		contentPane.add(spOpcode);
-		
+
 		opcode = new JTable();
 		opcode.setEnabled(false);
-		opcode.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
-		opcode.setModel(new DefaultTableModel(
-			new Object[][] {
-				{null, null, null, null, null, null, null},
-				{null, null, null, null, null, null, null},
-				{null, null, null, null, null, null, null},
-				{null, null, null, null, null, null, null},
-				{null, null, null, null, null, null, null},
-				{null, null, null, null, null, null, null},
-				{null, null, null, null, null, null, null},
-				{null, null, null, null, null, null, null},
-				{null, null, null, null, null, null, null},
-				{null, null, null, null, null, null, null},
-				{null, null, null, null, null, null, null},
-				{null, null, null, null, null, null, null},
-				{null, null, null, null, null, null, null},
-			},
-			new String[] {
-				"Address", "Instruction", "Opcode (Hex)", "IR0..5", "IR6..10", "IR11..15", "IR16..31"
-			}
-		));
+		opcode.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null,
+				null));
+		opcode.setModel(new DefaultTableModel(new Object[][] {
+				{ null, null, null, null, null, null, null },
+				{ null, null, null, null, null, null, null },
+				{ null, null, null, null, null, null, null },
+				{ null, null, null, null, null, null, null },
+				{ null, null, null, null, null, null, null },
+				{ null, null, null, null, null, null, null },
+				{ null, null, null, null, null, null, null },
+				{ null, null, null, null, null, null, null },
+				{ null, null, null, null, null, null, null },
+				{ null, null, null, null, null, null, null },
+				{ null, null, null, null, null, null, null },
+				{ null, null, null, null, null, null, null },
+				{ null, null, null, null, null, null, null }, }, new String[] {
+				"Address", "Instruction", "Opcode (Hex)", "IR0..5", "IR6..10",
+				"IR11..15", "IR16..31" }));
 		spOpcode.setViewportView(opcode);
-		
+
 		JLabel lblOpcode = new JLabel("Opcode Translation");
 		lblOpcode.setForeground(new Color(51, 51, 51));
 		lblOpcode.setFont(new Font("Tahoma", Font.PLAIN, 11));
 		lblOpcode.setBounds(415, 24, 100, 15);
 		contentPane.add(lblOpcode);
-		
+
 		JScrollPane spPipeline = new JScrollPane();
 		spPipeline.setBounds(30, 430, 1120, 175);
 		contentPane.add(spPipeline);
-		
+
 		pipelineMap = new JTable();
 		pipelineMap.setShowGrid(false);
 		pipelineMap.setEnabled(false);
-		pipelineMap.setModel(new DefaultTableModel(
-			new Object[][] {
-				{null, null, null, null, null, null, null, null, null, null, null, null, null, null, null},
-				{null, null, null, null, null, null, null, null, null, null, null, null, null, null, null},
-				{null, null, null, null, null, null, null, null, null, null, null, null, null, null, null},
-				{null, null, null, null, null, null, null, null, null, null, null, null, null, null, null},
-				{null, null, null, null, null, null, null, null, null, null, null, null, null, null, null},
-				{null, null, null, null, null, null, null, null, null, null, null, null, null, null, null},
-				{null, null, null, null, null, null, null, null, null, null, null, null, null, null, null},
-				{null, null, null, null, null, null, null, null, null, null, null, null, null, null, null},
-				{null, null, null, null, null, null, null, null, null, null, null, null, null, null, null},
-				{null, null, null, null, null, null, null, null, null, null, null, null, null, null, null},
-			},
-			new String[] {
-				"Instruction", "", "", "", "", "", "", "", "", "", "", "", "", "", ""
-			}
-		));
+		pipelineMap.setModel(new DefaultTableModel(new Object[][] {
+				{ null, null, null, null, null, null, null, null, null, null,
+						null, null, null, null, null },
+				{ null, null, null, null, null, null, null, null, null, null,
+						null, null, null, null, null },
+				{ null, null, null, null, null, null, null, null, null, null,
+						null, null, null, null, null },
+				{ null, null, null, null, null, null, null, null, null, null,
+						null, null, null, null, null },
+				{ null, null, null, null, null, null, null, null, null, null,
+						null, null, null, null, null },
+				{ null, null, null, null, null, null, null, null, null, null,
+						null, null, null, null, null },
+				{ null, null, null, null, null, null, null, null, null, null,
+						null, null, null, null, null },
+				{ null, null, null, null, null, null, null, null, null, null,
+						null, null, null, null, null },
+				{ null, null, null, null, null, null, null, null, null, null,
+						null, null, null, null, null },
+				{ null, null, null, null, null, null, null, null, null, null,
+						null, null, null, null, null }, }, new String[] {
+				"Instruction", "", "", "", "", "", "", "", "", "", "", "", "",
+				"", "" }));
 		spPipeline.setViewportView(pipelineMap);
-		
+
 		btnStep = new JButton("Step");
 		btnStep.setForeground(new Color(51, 51, 51));
 		btnStep.setBackground(SystemColor.window);
 		btnStep.setBounds(122, 200, 80, 20);
 		contentPane.add(btnStep);
-		
+
 		btnRun = new JButton("Run");
 		btnRun.setForeground(new Color(51, 51, 51));
 		btnRun.setBackground(SystemColor.window);
 		btnRun.setBounds(214, 200, 80, 20);
 		contentPane.add(btnRun);
-		
+
 		JScrollPane spCode = new JScrollPane();
 		spCode.setBounds(30, 44, 350, 150);
 		contentPane.add(spCode);
-		
-				code = new JTextArea();
-				spCode.setViewportView(code);
-				
-				btnStep.addActionListener(new ActionListener() {
-				    
-				    @Override
-				    public void actionPerformed(ActionEvent e) {
-					controller.stepAction();
-				    }
-				});
-				
-				btnLoad.addActionListener(new ActionListener() {
-				    
-				    @Override
-				    public void actionPerformed(ActionEvent e) {
-					controller.loadAction();
-				    }
-				});
+
+		code = new JTextArea();
+		spCode.setViewportView(code);
+
+		btnStep.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				controller.stepAction();
+			}
+		});
+
+		btnLoad.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				controller.loadAction();
+			}
+		});
 	}
 
 	public JMenu getMnFile() {
@@ -301,24 +290,31 @@ public class Main extends JFrame {
 	public JTable getSpecialRegisters() {
 		return specialRegisters;
 	}
+
 	public JTable getOpcode() {
 		return opcode;
 	}
+
 	public JTable getMemory() {
 		return memory;
 	}
+
 	public JTable getPipelineMap() {
 		return pipelineMap;
 	}
+
 	public JMenuItem getMntmLoadProgram() {
 		return mntmLoadProgram;
 	}
+
 	public JMenuItem getMntmSaveProgram() {
 		return mntmSaveProgram;
 	}
+
 	public JButton getBtnStep() {
 		return btnStep;
 	}
+
 	public JButton getBtnRun() {
 		return btnRun;
 	}
