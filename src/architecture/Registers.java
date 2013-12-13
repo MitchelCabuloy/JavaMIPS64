@@ -17,8 +17,9 @@ public class Registers {
 		this.registers = new long[0x20];
 		this.specialRegisters = new HashMap<String, Long>();
 
-		this.registersTableModel = new RegistersTableModel(this);
-		this.specialRegistersTableModel = new SpecialRegistersTableModel(this);
+		this.registersTableModel = new RegistersTableModel(registers);
+		this.specialRegistersTableModel = new SpecialRegistersTableModel(
+				specialRegisters);
 
 		this.specialRegisters.put("PC", 0L);
 
@@ -132,9 +133,9 @@ public class Registers {
 }
 
 class RegistersTableModel extends AbstractTableModel {
-	Registers registers;
+	private long[] registers;
 
-	public RegistersTableModel(Registers registers) {
+	public RegistersTableModel(long[] registers) {
 		this.registers = registers;
 	}
 
@@ -161,16 +162,15 @@ class RegistersTableModel extends AbstractTableModel {
 		if (columnIndex == 0)
 			return "R" + rowIndex;
 		else
-			return String.format("%016x", registers.getRegister(rowIndex))
-					.toUpperCase();
+			return String.format("%016x", registers[rowIndex]).toUpperCase();
 	}
 
 }
 
 class SpecialRegistersTableModel extends AbstractTableModel {
-	Registers registers;
+	HashMap<String, Long> registers;
 
-	public SpecialRegistersTableModel(Registers registers) {
+	public SpecialRegistersTableModel(HashMap<String, Long> registers) {
 		this.registers = registers;
 	}
 
@@ -224,46 +224,43 @@ class SpecialRegistersTableModel extends AbstractTableModel {
 		} else {
 			switch (rowIndex) {
 			case 0:
-				return String.format("%016x", registers.getRegister("PC"))
+				return String.format("%016x", registers.get("PC"))
 						.toUpperCase();
 			case 1:
-				return String
-						.format("%016x", registers.getRegister("IF/ID.IR"))
+				return String.format("%016x", registers.get("IF/ID.IR"))
 						.toUpperCase();
 			case 2:
-				return String.format("%016x", registers.getRegister("ID/EX.A"))
+				return String.format("%016x", registers.get("ID/EX.A"))
 						.toUpperCase();
 			case 3:
-				return String.format("%016x", registers.getRegister("ID/EX.B"))
+				return String.format("%016x", registers.get("ID/EX.B"))
 						.toUpperCase();
 			case 4:
-				return String.format("%016x",
-						registers.getRegister("ID/EX.Imm")).toUpperCase();
+				return String.format("%016x", registers.get("ID/EX.IMM"))
+						.toUpperCase();
 			case 5:
-				return String
-						.format("%016x", registers.getRegister("ID/EX.IR"))
+				return String.format("%016x", registers.get("ID/EX.IR"))
 						.toUpperCase();
 			case 6:
-				return String.format("%016x",
-						registers.getRegister("EX/MEM.ALUOutput"))
+				return String
+						.format("%016x", registers.get("EX/MEM.ALUOUTPUT"))
 						.toUpperCase();
 			case 7:
-				return String.format("%016x",
-						registers.getRegister("EX/MEM.IR")).toUpperCase();
+				return String.format("%016x", registers.get("EX/MEM.IR"))
+						.toUpperCase();
 			case 8:
-				return String
-						.format("%016x", registers.getRegister("EX/MEM.B"))
+				return String.format("%016x", registers.get("EX/MEM.B"))
 						.toUpperCase();
 			case 9:
-				return String.format("%016x",
-						registers.getRegister("MEM/WB.ALUOutput"))
+				return String
+						.format("%016x", registers.get("MEM/WB.ALUOUTPUT"))
 						.toUpperCase();
 			case 10:
-				return String.format("%016x",
-						registers.getRegister("MEM/WB.LMD")).toUpperCase();
+				return String.format("%016x", registers.get("MEM/WB.LMD"))
+						.toUpperCase();
 			case 11:
-				return String.format("%016x",
-						registers.getRegister("MEM/WB.IR")).toUpperCase();
+				return String.format("%016x", registers.get("MEM/WB.IR"))
+						.toUpperCase();
 			}
 		}
 
