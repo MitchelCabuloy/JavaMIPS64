@@ -161,7 +161,8 @@ class RegistersTableModel extends AbstractTableModel {
 		if (columnIndex == 0)
 			return "R" + rowIndex;
 		else
-			return registers.getRegister(rowIndex);
+			return String.format("%016x", registers.getRegister(rowIndex))
+					.toUpperCase();
 	}
 
 }
@@ -223,38 +224,46 @@ class SpecialRegistersTableModel extends AbstractTableModel {
 		} else {
 			switch (rowIndex) {
 			case 0:
-				return String.format("%016x", registers.getRegister("PC"));
+				return String.format("%016x", registers.getRegister("PC"))
+						.toUpperCase();
 			case 1:
 				return String
-						.format("%016x", registers.getRegister("IF/ID.IR"));
+						.format("%016x", registers.getRegister("IF/ID.IR"))
+						.toUpperCase();
 			case 2:
-				return String.format("%016x", registers.getRegister("ID/EX.A"));
+				return String.format("%016x", registers.getRegister("ID/EX.A"))
+						.toUpperCase();
 			case 3:
-				return String.format("%016x", registers.getRegister("ID/EX.B"));
+				return String.format("%016x", registers.getRegister("ID/EX.B"))
+						.toUpperCase();
 			case 4:
 				return String.format("%016x",
-						registers.getRegister("ID/EX.Imm"));
+						registers.getRegister("ID/EX.Imm")).toUpperCase();
 			case 5:
 				return String
-						.format("%016x", registers.getRegister("ID/EX.IR"));
+						.format("%016x", registers.getRegister("ID/EX.IR"))
+						.toUpperCase();
 			case 6:
 				return String.format("%016x",
-						registers.getRegister("EX/MEM.ALUOutput"));
+						registers.getRegister("EX/MEM.ALUOutput"))
+						.toUpperCase();
 			case 7:
 				return String.format("%016x",
-						registers.getRegister("EX/MEM.IR"));
+						registers.getRegister("EX/MEM.IR")).toUpperCase();
 			case 8:
 				return String
-						.format("%016x", registers.getRegister("EX/MEM.B"));
+						.format("%016x", registers.getRegister("EX/MEM.B"))
+						.toUpperCase();
 			case 9:
 				return String.format("%016x",
-						registers.getRegister("MEM/WB.ALUOutput"));
+						registers.getRegister("MEM/WB.ALUOutput"))
+						.toUpperCase();
 			case 10:
 				return String.format("%016x",
-						registers.getRegister("MEM/WB.LMD"));
+						registers.getRegister("MEM/WB.LMD")).toUpperCase();
 			case 11:
 				return String.format("%016x",
-						registers.getRegister("MEM/WB.IR"));
+						registers.getRegister("MEM/WB.IR")).toUpperCase();
 			}
 		}
 

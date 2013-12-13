@@ -166,7 +166,7 @@ class MemoryTableModel extends AbstractTableModel {
 				if (columnIndex == 0) {
 					return entry.getKey();
 				} else {
-					return String.format("%02x",entry.getValue());
+					return String.format("%02x",entry.getValue()).toUpperCase();
 				}
 			}
 			i++;
