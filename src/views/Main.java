@@ -20,16 +20,26 @@ import javax.swing.JSeparator;
 import javax.swing.border.BevelBorder;
 import javax.swing.border.EtchedBorder;
 import javax.swing.border.SoftBevelBorder;
+
 import java.awt.Component;
+
 import javax.swing.Box;
+
 import java.awt.Dimension;
 import java.awt.SystemColor;
 import java.awt.Color;
+
 import javax.swing.UIManager;
+
+import simulator.MIPSController;
+
 import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 public class Main extends JFrame {
 
+    	private MIPSController controller;
 	private JPanel contentPane;
 	private JTable registers;
 	private JTable specialRegisters;
@@ -45,8 +55,10 @@ public class Main extends JFrame {
 
 	/**
 	 * Create the frame.
+	 * @param mipsController 
 	 */
-	public Main() {
+	public Main(MIPSController mipsController) {
+	    	controller = mipsController;
 		setResizable(false);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 1185, 685);
@@ -69,10 +81,6 @@ public class Main extends JFrame {
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
-
-		code = new JTextArea();
-		code.setBounds(30, 44, 350, 150);
-		contentPane.add(code);
 
 		JLabel lblRegisters = new JLabel("Registers");
 		lblRegisters.setBounds(30, 230, 100, 15);
@@ -181,9 +189,9 @@ public class Main extends JFrame {
 		));
 		spMemory.setViewportView(memory);
 		
-		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(415, 44, 735, 150);
-		contentPane.add(scrollPane);
+		JScrollPane spOpcode = new JScrollPane();
+		spOpcode.setBounds(415, 44, 735, 150);
+		contentPane.add(spOpcode);
 		
 		opcode = new JTable();
 		opcode.setEnabled(false);
@@ -208,7 +216,7 @@ public class Main extends JFrame {
 				"Address", "Instruction", "Opcode (Hex)", "IR0..5", "IR6..10", "IR11..15", "IR16..31"
 			}
 		));
-		scrollPane.setViewportView(opcode);
+		spOpcode.setViewportView(opcode);
 		
 		JLabel lblOpcode = new JLabel("Opcode Translation");
 		lblOpcode.setForeground(new Color(51, 51, 51));
@@ -253,6 +261,29 @@ public class Main extends JFrame {
 		btnRun.setBackground(SystemColor.window);
 		btnRun.setBounds(214, 200, 80, 20);
 		contentPane.add(btnRun);
+		
+		JScrollPane spCode = new JScrollPane();
+		spCode.setBounds(30, 44, 350, 150);
+		contentPane.add(spCode);
+		
+				code = new JTextArea();
+				spCode.setViewportView(code);
+				
+				btnStep.addActionListener(new ActionListener() {
+				    
+				    @Override
+				    public void actionPerformed(ActionEvent e) {
+					controller.stepAction();
+				    }
+				});
+				
+				btnLoad.addActionListener(new ActionListener() {
+				    
+				    @Override
+				    public void actionPerformed(ActionEvent e) {
+					controller.loadAction();
+				    }
+				});
 	}
 
 	public JMenu getMnFile() {

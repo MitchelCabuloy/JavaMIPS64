@@ -19,19 +19,19 @@ public class Program {
 		loadYAML(document);
 	}
 
-	public Program(FileInputStream document) {
-		loadYAML(document);
-	}
+//	public Program(FileInputStream document) {
+//		loadYAML(document);
+//	}
 
 	private void loadYAML(Object document) {
 		Yaml yaml = new Yaml();
 
 		if (document instanceof FileInputStream || document instanceof String) {
-			Map map = null;
-			if (document instanceof FileInputStream)
-				map = (Map) yaml.load((FileInputStream) document);
-			else
-				map = (Map) yaml.load((String) document);
+			Map map = (Map) yaml.load((String) document);
+//			if (document instanceof FileInputStream)
+//				map = (Map) yaml.load((FileInputStream) document);
+//			else
+//				map = (Map) yaml.load((String) document);
 
 			this.registers = (LinkedHashMap) map.get("registers");
 
