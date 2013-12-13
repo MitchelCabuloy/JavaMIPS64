@@ -17,6 +17,22 @@ public class Simulator {
 		this.registers = new Registers();
 	}
 
+	public Memory getMemory() {
+	    return memory;
+	}
+
+	public void setMemory(Memory memory) {
+	    this.memory = memory;
+	}
+
+	public Registers getRegisters() {
+	    return registers;
+	}
+
+	public void setRegisters(Registers registers) {
+	    this.registers = registers;
+	}
+
 	public void loadProgram(Program program) {
 
 		// Load registers

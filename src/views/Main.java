@@ -109,19 +109,19 @@ public class Main extends JFrame {
 		registers.setForeground(new Color(51, 51, 51));
 		registers.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null,
 				null, null));
-		registers.setModel(new DefaultTableModel(
-				new Object[][] { { null, null }, { null, null },
-						{ null, null }, { null, null }, { null, null },
-						{ null, null }, { null, null }, { null, null },
-						{ null, null }, { null, null }, { null, null },
-						{ null, null }, { null, null }, { null, null },
-						{ null, null }, { null, null }, { null, null },
-						{ null, null }, { null, null }, { null, null },
-						{ null, null }, { null, null }, { null, null },
-						{ null, null }, { null, null }, { null, null },
-						{ null, null }, { null, null }, { null, null },
-						{ null, null }, { null, null }, { null, null }, },
-				new String[] { "Registers", "Value" }));
+//		registers.setModel(new DefaultTableModel(
+//				new Object[][] { { null, null }, { null, null },
+//						{ null, null }, { null, null }, { null, null },
+//						{ null, null }, { null, null }, { null, null },
+//						{ null, null }, { null, null }, { null, null },
+//						{ null, null }, { null, null }, { null, null },
+//						{ null, null }, { null, null }, { null, null },
+//						{ null, null }, { null, null }, { null, null },
+//						{ null, null }, { null, null }, { null, null },
+//						{ null, null }, { null, null }, { null, null },
+//						{ null, null }, { null, null }, { null, null },
+//						{ null, null }, { null, null }, { null, null }, },
+//				new String[] { "Registers", "Value" }));
 		spRegisters.setViewportView(registers);
 
 		JButton btnLoad = new JButton("Load");

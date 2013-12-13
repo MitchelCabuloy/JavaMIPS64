@@ -42,11 +42,16 @@ public class MIPSController {
 	
 	public void stepAction(){
 	    simulator.step();
+	    window.repaint();
 	}
 	
 	public void loadAction(){	    
 	    Program program = new Program(window.getCode().getText());
 	    simulator.loadProgram(program);
+	    
+	    // Update tables
+	    window.getRegisters().setModel(simulator.getRegisters().getRegistersTableModel());
+	    window.getSpecialRegisters().setModel(simulator.getRegisters().getSpecialRegistersTableModel());
 	}
 
 }
