@@ -5,9 +5,12 @@ import java.nio.ByteOrder;
 import java.util.HashMap;
 import java.util.Map.Entry;
 
+import javax.swing.table.AbstractTableModel;
+
 public class Memory {
 	private HashMap<Integer, Byte> memory;
 	private HashMap<Integer, Byte> transactions;
+	private MemoryTableModel memoryTableModel;
 
 	public Memory() {
 		// Declare size to be 2000 units
@@ -15,6 +18,7 @@ public class Memory {
 		// Rest is main memory
 		memory = new HashMap<Integer, Byte>();
 		transactions = new HashMap<Integer, Byte>();
+		memoryTableModel = new MemoryTableModel(memory);
 	}
 
 	public byte getMemoryAddress(int address) {
@@ -44,10 +48,10 @@ public class Memory {
 
 			ByteBuffer buffer = ByteBuffer.allocate(4);
 			buffer.order(ByteOrder.BIG_ENDIAN);
-			
+
 			byte b = 0;
 			for (int i = 0; i < 4; i++) {
-				if(memory.containsKey(address + i))
+				if (memory.containsKey(address + i))
 					buffer.put(memory.get(address + i));
 				else
 					buffer.put(b);
@@ -76,6 +80,14 @@ public class Memory {
 		} else {
 			throw new CodeSegmentOutOfRangeException(lineNumber);
 		}
+	}
+
+	public MemoryTableModel getMemoryTableModel() {
+		return memoryTableModel;
+	}
+
+	public void setMemoryTableModel(MemoryTableModel memoryTableModel) {
+		this.memoryTableModel = memoryTableModel;
 	}
 
 	public void cancelTransaction() {
@@ -108,16 +120,60 @@ public class Memory {
 	// Debug code
 	public void seeMemory() {
 		int i = 0;
-//		for (Byte value : this.memory) {
-//			if (value != 0)
-//				System.out.println(i + ": " + value);
-//			i++;
-//		}
-		for(Entry<Integer, Byte> entry : memory.entrySet()){
-			if(entry.getValue() != 0)
-				System.out.println(String.format("%04x: %02x", entry.getKey(), entry.getValue()));
+		// for (Byte value : this.memory) {
+		// if (value != 0)
+		// System.out.println(i + ": " + value);
+		// i++;
+		// }
+		for (Entry<Integer, Byte> entry : memory.entrySet()) {
+			if (entry.getValue() != 0)
+				System.out.println(String.format("%04x: %02x", entry.getKey(),
+						entry.getValue()));
 		}
 	}
+}
+
+class MemoryTableModel extends AbstractTableModel {
+	private HashMap<Integer, Byte> memory;
+
+	public MemoryTableModel(HashMap<Integer, Byte> memory) {
+		this.memory = memory;
+	}
+	
+	@Override
+	public String getColumnName(int column) {
+		if (column == 0)
+			return "Address";
+		else
+			return "Value";
+	}
+
+	@Override
+	public int getRowCount() {
+		return memory.size();
+	}
+
+	@Override
+	public int getColumnCount() {
+		return 2;
+	}
+
+	@Override
+	public Object getValueAt(int rowIndex, int columnIndex) {
+		int i = 0;
+		for (Entry<Integer, Byte> entry : memory.entrySet()) {
+			if (i == rowIndex) {
+				if (columnIndex == 0) {
+					return entry.getKey();
+				} else {
+					return String.format("%02x",entry.getValue());
+				}
+			}
+			i++;
+		}
+		return null;
+	}
+
 }
 
 class MemoryOutOfRangeException extends RuntimeException {

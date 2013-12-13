@@ -52,6 +52,8 @@ public class MIPSController {
 	    // Update tables
 	    window.getRegisters().setModel(simulator.getRegisters().getRegistersTableModel());
 	    window.getSpecialRegisters().setModel(simulator.getRegisters().getSpecialRegistersTableModel());
+	    window.getMemory().setModel(simulator.getMemory().getMemoryTableModel());
+	    window.getMemory().getRowSorter().toggleSortOrder(0);
 	    window.repaint();
 	}
 
