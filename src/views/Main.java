@@ -204,7 +204,7 @@ public class Main extends JFrame {
 		JLabel lblOpcode = new JLabel("Opcode Translation");
 		lblOpcode.setForeground(new Color(51, 51, 51));
 		lblOpcode.setFont(new Font("Tahoma", Font.PLAIN, 11));
-		lblOpcode.setBounds(415, 24, 100, 15);
+		lblOpcode.setBounds(415, 24, 202, 15);
 		contentPane.add(lblOpcode);
 
 		JScrollPane spPipeline = new JScrollPane();
