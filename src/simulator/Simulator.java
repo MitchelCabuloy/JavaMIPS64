@@ -37,7 +37,8 @@ public class Simulator {
 		this.registers = registers;
 	}
 
-	public void loadProgram(Program program) throws RegisterOutOfBoundsException, MemoryOutOfRangeException {
+	public void loadProgram(Program program)
+			throws RegisterOutOfBoundsException, MemoryOutOfRangeException {
 		memory = new Memory();
 		registers = new Registers();
 
@@ -88,11 +89,12 @@ public class Simulator {
 		// this.memory.seeMemory();
 	}
 
-	public void step() throws RegisterOutOfBoundsException, MemoryOutOfRangeException {
+	public void step() throws RegisterOutOfBoundsException,
+			MemoryOutOfRangeException {
 		// Instruction fetch
 		// Set IF/ID.IR to Memory[PC]
-		registers.setRegister("IF/ID.IR",
-				memory.getCodeSegment((int) (registers.getRegister("PC") / 4)));
+		registers.setRegister("IF/ID.IR", ByteUtils.getUnsignedInt(memory
+				.getCodeSegment((int) (registers.getRegister("PC") / 4))));
 		// Set PC <- PC + 4
 		registers.setRegister("PC", registers.getRegister("PC") + 4);
 		// Pipeline #2 doesn't have NPC

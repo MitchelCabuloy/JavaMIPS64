@@ -15,6 +15,10 @@ public class ByteUtils {
 		buffer.flip();// need flip
 		return buffer.getLong();
 	}
+	
+	public static long getUnsignedInt(int x) {
+	    return x & 0x00000000FFFFFFFFL;
+	}
 
 	public static String getBinaryString(Integer integer) {
 		return String.format("%32s", Integer.toBinaryString(integer))
