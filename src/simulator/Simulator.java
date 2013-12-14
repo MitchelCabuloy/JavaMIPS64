@@ -3,6 +3,7 @@ package simulator;
 import java.math.BigInteger;
 import java.util.Map.Entry;
 
+import exceptions.MemoryOutOfRangeException;
 import exceptions.RegisterOutOfBoundsException;
 import models.Code;
 import models.Program;
@@ -37,7 +38,7 @@ public class Simulator {
 		this.registers = registers;
 	}
 
-	public void loadProgram(Program program) throws RegisterOutOfBoundsException {
+	public void loadProgram(Program program) throws RegisterOutOfBoundsException, MemoryOutOfRangeException {
 		memory = new Memory();
 		registers = new Registers();
 
@@ -89,7 +90,7 @@ public class Simulator {
 		// this.memory.seeMemory();
 	}
 
-	public void step() throws RegisterOutOfBoundsException {
+	public void step() throws RegisterOutOfBoundsException, MemoryOutOfRangeException {
 		// Instruction fetch
 		// Set IF/ID.IR to Memory[PC]
 		registers.setRegister("IF/ID.IR",

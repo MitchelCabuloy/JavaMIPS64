@@ -24,7 +24,7 @@ public class Memory {
 		memoryTableModel = new MemoryTableModel(memory);
 	}
 
-	public byte getMemoryAddress(int address) {
+	public byte getMemoryAddress(int address) throws MemoryOutOfRangeException {
 		if (address >= 0x1000 && address < 0x2000) {
 			if (memory.containsKey(address))
 				return memory.get(address);
@@ -35,7 +35,7 @@ public class Memory {
 		}
 	}
 
-	public void setMemoryAddress(int address, byte value) {
+	public void setMemoryAddress(int address, byte value) throws MemoryOutOfRangeException {
 		if (address >= 0x1000 && address < 0x2000) {
 			this.transactions.put(address, value);
 		} else {
@@ -105,7 +105,7 @@ public class Memory {
 		this.transactions.clear();
 	}
 
-	public static long getLMD(long IR, Registers registers, Memory memory) throws RegisterOutOfBoundsException {
+	public static long getLMD(long IR, Registers registers, Memory memory) throws RegisterOutOfBoundsException, MemoryOutOfRangeException {
 		int address = (int) registers.getRegister("EX/MEM.ALUOUTPUT");
 		String byteString = "";
 		for (int i = 0; i < 4; i++) {
