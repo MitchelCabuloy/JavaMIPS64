@@ -4,6 +4,7 @@ import util.ByteUtils;
 import architecture.Decoder;
 
 public class Code {
+	private int address;
 	private int instruction;
 	private String codeString;
 
@@ -54,6 +55,14 @@ public class Code {
 
 	public int getFunc() {
 		return ByteUtils.getFunc(instruction);
+	}
+
+	public int getAddress() {
+		return address;
+	}
+
+	public void setAddress(int address) {
+		this.address = address;
 	}
 
 }
