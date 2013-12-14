@@ -176,6 +176,28 @@ class MemoryTableModel extends AbstractTableModel {
 
 }
 
+class OpcodeTableModel extends AbstractTableModel{
+
+	@Override
+	public int getRowCount() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public int getColumnCount() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public Object getValueAt(int rowIndex, int columnIndex) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	
+}
+
 class MemoryOutOfRangeException extends RuntimeException {
 	public MemoryOutOfRangeException() {
 		super("Memory address entered is beyond the 0x1000 to 0x1FFF range");
