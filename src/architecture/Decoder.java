@@ -4,8 +4,10 @@ import java.util.HashMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import exceptions.InvalidSyntaxException;
 import util.ByteUtils;
+import util.ExceptionUtils;
+import exceptions.InvalidSyntaxException;
+import exceptions.RegisterOutOfBoundsException;
 
 public class Decoder {
 	public static int decode(String code) {
@@ -231,7 +233,8 @@ public class Decoder {
 		return tempMap;
 	}
 
-	public static int decode2(String codeString) throws InvalidSyntaxException {
+	public static int decode2(String codeString) throws InvalidSyntaxException,
+			RegisterOutOfBoundsException {
 		for (Pattern pattern : patterns) {
 			Matcher m = pattern.matcher(codeString);
 
@@ -251,15 +254,16 @@ public class Decoder {
 
 					// RS
 					sb.append(ByteUtils.getBinaryString(
-							Integer.parseInt(m.group(3))).substring(27));
+							ExceptionUtils.validateRegister(Integer.parseInt(m
+									.group(3)))).substring(27));
 
 					// RT
-					sb.append(ByteUtils.getBinaryString(
-							Integer.parseInt(m.group(4))).substring(27));
+					sb.append(ByteUtils.getBinaryString(ExceptionUtils.validateRegister(Integer.parseInt(m
+							.group(4)))).substring(27));
 
 					// RD
-					sb.append(ByteUtils.getBinaryString(
-							Integer.parseInt(m.group(2))).substring(27));
+					sb.append(ByteUtils.getBinaryString(ExceptionUtils.validateRegister(Integer.parseInt(m
+							.group(2)))).substring(27));
 
 					// 00000
 					sb.append("00000");
@@ -270,8 +274,8 @@ public class Decoder {
 					break;
 				case "BNEZ":
 					// RS
-					sb.append(ByteUtils.getBinaryString(
-							Integer.parseInt(m.group(2))).substring(27));
+					sb.append(ByteUtils.getBinaryString(ExceptionUtils.validateRegister(Integer.parseInt(m
+							.group(2)))).substring(27));
 
 					// 00000
 					sb.append("00000");
@@ -290,12 +294,12 @@ public class Decoder {
 				case "LD":
 				case "SD": // they have the same format
 					// RS
-					sb.append(ByteUtils.getBinaryString(
-							Integer.parseInt(m.group(4))).substring(27));
+					sb.append(ByteUtils.getBinaryString(ExceptionUtils.validateRegister(Integer.parseInt(m
+							.group(4)))).substring(27));
 
 					// RT
-					sb.append(ByteUtils.getBinaryString(
-							Integer.parseInt(m.group(2))).substring(27));
+					sb.append(ByteUtils.getBinaryString(ExceptionUtils.validateRegister(Integer.parseInt(m
+							.group(2)))).substring(27));
 
 					// Offset
 					sb.append(ByteUtils.getBinaryString(
@@ -303,12 +307,12 @@ public class Decoder {
 					break;
 				case "DADDI":
 					// RS
-					sb.append(ByteUtils.getBinaryString(
-							Integer.parseInt(m.group(3))).substring(27));
+					sb.append(ByteUtils.getBinaryString(ExceptionUtils.validateRegister(Integer.parseInt(m
+							.group(3)))).substring(27));
 
 					// RD
-					sb.append(ByteUtils.getBinaryString(
-							Integer.parseInt(m.group(2))).substring(27));
+					sb.append(ByteUtils.getBinaryString(ExceptionUtils.validateRegister(Integer.parseInt(m
+							.group(2)))).substring(27));
 
 					// IMM
 					sb.append(ByteUtils.getBinaryString(

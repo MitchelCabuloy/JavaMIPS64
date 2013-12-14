@@ -1,9 +1,10 @@
 package architecture;
 
+import exceptions.RegisterOutOfBoundsException;
 import util.ByteUtils;
 
 public class ALU {
-	public static long getOutput(long IR, Registers registers, Memory memory) {
+	public static long getOutput(long IR, Registers registers, Memory memory) throws RegisterOutOfBoundsException {
 		switch (ByteUtils.getOpcode((int) IR)) {
 		// R Type
 		case 0:

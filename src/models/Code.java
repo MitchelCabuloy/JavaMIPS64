@@ -1,6 +1,7 @@
 package models;
 
 import exceptions.InvalidSyntaxException;
+import exceptions.RegisterOutOfBoundsException;
 import util.ByteUtils;
 import architecture.Decoder;
 
@@ -9,7 +10,7 @@ public class Code {
 	private int instruction;
 	private String codeString;
 
-	public Code(String codeString) throws InvalidSyntaxException {
+	public Code(String codeString) throws InvalidSyntaxException, RegisterOutOfBoundsException {
 		this.codeString = codeString;
 		this.instruction = Decoder.decode2(codeString);
 	}

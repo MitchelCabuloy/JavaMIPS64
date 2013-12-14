@@ -47,7 +47,7 @@ public class Registers {
 	}
 
 	// For numbered Registers (R0, R1, R2)
-	public long getRegister(int number) {
+	public long getRegister(int number) throws RegisterOutOfBoundsException {
 		if (number == 0)
 			// For R0
 			return 0;
@@ -57,7 +57,7 @@ public class Registers {
 			throw new RegisterOutOfBoundsException(number);
 	}
 
-	public void setRegister(int number, long value) {
+	public void setRegister(int number, long value) throws RegisterOutOfBoundsException {
 		if (number == 0) {
 			// Silently fail if someone is trying to set R0
 		} else if (number > 0 && number < 32)
@@ -68,7 +68,7 @@ public class Registers {
 	}
 
 	// For Special Registers
-	public long getRegister(String register) {
+	public long getRegister(String register) throws RegisterOutOfBoundsException {
 		register = register.toUpperCase();
 		if (this.specialRegisters.containsKey(register))
 			return this.specialRegisters.get(register);
@@ -76,7 +76,7 @@ public class Registers {
 			throw new RegisterOutOfBoundsException(register);
 	}
 
-	public void setRegister(String register, long value) {
+	public void setRegister(String register, long value) throws RegisterOutOfBoundsException {
 		register = register.toUpperCase();
 		if (this.specialRegisters.containsKey(register))
 			this.transactions.put(register, value);

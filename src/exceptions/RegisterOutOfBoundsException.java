@@ -1,6 +1,6 @@
 package exceptions;
 
-public class RegisterOutOfBoundsException extends RuntimeException {
+public class RegisterOutOfBoundsException extends Exception {
 	public RegisterOutOfBoundsException() {
 	}
 

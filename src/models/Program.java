@@ -56,8 +56,4 @@ public class Program {
 	public ArrayList<Code> getCodes() {
 		return codes;
 	}
-
-//	public void setCodes(ArrayList<Code> codes) {
-//		this.codes = codes;
-//	}
 }

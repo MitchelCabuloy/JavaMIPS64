@@ -3,6 +3,7 @@ package simulator;
 import java.math.BigInteger;
 import java.util.Map.Entry;
 
+import exceptions.RegisterOutOfBoundsException;
 import models.Code;
 import models.Program;
 import util.ByteUtils;
@@ -36,7 +37,7 @@ public class Simulator {
 		this.registers = registers;
 	}
 
-	public void loadProgram(Program program) {
+	public void loadProgram(Program program) throws RegisterOutOfBoundsException {
 		memory = new Memory();
 		registers = new Registers();
 
@@ -54,13 +55,9 @@ public class Simulator {
 			else if (entry.getValue() instanceof BigInteger)
 				value = ((BigInteger) entry.getValue()).longValue();
 
-			try {
-				registers.setRegister(
-						Integer.parseInt(register.replaceAll("R(\\d+)", "$1")),
-						value);
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
+			registers.setRegister(
+					Integer.parseInt(register.replaceAll("R(\\d+)", "$1")),
+					value);
 		}
 
 		// Load memory
@@ -70,16 +67,16 @@ public class Simulator {
 
 		// TODO: Place code that saves the code to the code segment here
 		// You can get the code in program.code
-		 int lineNumber = 0;
-		 for(Code code : program.getCodes()){
-			 // int codeSegment = Decoder.decode(code);
-			 memory.setCodeSegment(lineNumber, code.getInstruction());
-			 code.setAddress(lineNumber * 4);
-			 lineNumber++;
-		 }
+		int lineNumber = 0;
+		for (Code code : program.getCodes()) {
+			// int codeSegment = Decoder.decode(code);
+			memory.setCodeSegment(lineNumber, code.getInstruction());
+			code.setAddress(lineNumber * 4);
+			lineNumber++;
+		}
 
-//		// Debugging code while decoder not yet implemented
-//		this.memory.setCodeSegment(0, 0x00231025); // OR R3, R1, R2
+		// // Debugging code while decoder not yet implemented
+		// this.memory.setCodeSegment(0, 0x00231025); // OR R3, R1, R2
 
 		// Save changes to registers
 		registers.commit();
@@ -92,7 +89,7 @@ public class Simulator {
 		// this.memory.seeMemory();
 	}
 
-	public void step() {
+	public void step() throws RegisterOutOfBoundsException {
 		// Instruction fetch
 		// Set IF/ID.IR to Memory[PC]
 		registers.setRegister("IF/ID.IR",
@@ -161,8 +158,8 @@ public class Simulator {
 		registers.commit();
 		memory.commit();
 
-		System.out.println("STEP");
-		this.registers.seeRegisters();
+		// System.out.println("STEP");
+		// this.registers.seeRegisters();
 		// this.memory.seeMemory();
 	}
 }
