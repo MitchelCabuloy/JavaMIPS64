@@ -12,7 +12,7 @@ public class Code {
 
 	public Code(String codeString) throws InvalidSyntaxException, RegisterOutOfBoundsException {
 		this.codeString = codeString;
-		this.instruction = Decoder.decode2(codeString);
+		this.instruction = Decoder.decode(codeString);
 	}
 
 	public int getInstruction() {
