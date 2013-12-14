@@ -3,8 +3,8 @@ package simulator;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.InputStream;
 
+import models.OpcodeTableModel;
 import models.Program;
 import util.StreamUtils;
 import views.Main;
@@ -48,6 +48,7 @@ public class MIPSController {
 	    window.getSpecialRegisters().setModel(simulator.getRegisters().getSpecialRegistersTableModel());
 	    window.getMemory().setModel(simulator.getMemory().getMemoryTableModel());
 	    window.getMemory().getRowSorter().toggleSortOrder(0);
+	    window.getOpcode().setModel(new OpcodeTableModel(program));
 	    window.repaint();
 	}
 
