@@ -2,6 +2,7 @@ package models;
 
 import javax.swing.table.AbstractTableModel;
 
+@SuppressWarnings("serial")
 public class RegistersTableModel extends AbstractTableModel {
 	private long[] registers;
 

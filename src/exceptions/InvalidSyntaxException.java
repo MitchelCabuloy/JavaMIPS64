@@ -1,5 +1,6 @@
 package exceptions;
 
+@SuppressWarnings("serial")
 public class InvalidSyntaxException extends Exception{
 	public InvalidSyntaxException(){}
 	

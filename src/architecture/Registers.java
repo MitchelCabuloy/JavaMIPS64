@@ -105,6 +105,7 @@ public class Registers {
 		this.transactions.clear();
 	}
 
+	@SuppressWarnings("rawtypes")
 	public void commit() {
 		for (Entry entry : this.transactions.entrySet()) {
 			if (entry.getKey() instanceof Integer) {
@@ -117,19 +118,5 @@ public class Registers {
 		}
 
 		this.transactions.clear();
-	}
-
-	// Debug code
-	public void seeRegisters() {
-		int i = 0;
-		for (Long value : this.registers) {
-			if (value != 0)
-				System.out.println(String.format("R%02d: %016x", i, value));
-			i++;
-		}
-		for (Entry<String, Long> entry : this.specialRegisters.entrySet()) {
-			System.out.println(String.format("%s: %016x", entry.getKey(),
-					entry.getValue()));
-		}
 	}
 }

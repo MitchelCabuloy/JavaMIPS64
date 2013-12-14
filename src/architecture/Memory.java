@@ -119,19 +119,4 @@ public class Memory {
 
 		return Long.parseLong(byteString, 2);
 	}
-
-	// Debug code
-	public void seeMemory() {
-		int i = 0;
-		// for (Byte value : this.memory) {
-		// if (value != 0)
-		// System.out.println(i + ": " + value);
-		// i++;
-		// }
-		for (Entry<Integer, Byte> entry : memory.entrySet()) {
-			if (entry.getValue() != 0)
-				System.out.println(String.format("%04x: %02x", entry.getKey(),
-						entry.getValue()));
-		}
-	}
 }

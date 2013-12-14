@@ -5,6 +5,7 @@ import java.util.Map.Entry;
 
 import javax.swing.table.AbstractTableModel;
 
+@SuppressWarnings("serial")
 public class MemoryTableModel extends AbstractTableModel {
 	private HashMap<Integer, Byte> memory;
 

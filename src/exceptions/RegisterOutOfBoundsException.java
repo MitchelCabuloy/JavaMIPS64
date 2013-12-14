@@ -1,5 +1,6 @@
 package exceptions;
 
+@SuppressWarnings("serial")
 public class RegisterOutOfBoundsException extends Exception {
 	public RegisterOutOfBoundsException() {
 	}

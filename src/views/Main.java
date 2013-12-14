@@ -1,42 +1,29 @@
 package views;
 
-import java.awt.BorderLayout;
-import java.awt.EventQueue;
-
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
-import javax.swing.JMenu;
-import javax.swing.JTextArea;
-import javax.swing.JMenuBar;
-import javax.swing.JMenuItem;
-import javax.swing.JLabel;
-import javax.swing.JTable;
-import javax.swing.table.DefaultTableModel;
-import javax.swing.JScrollPane;
-import javax.swing.JScrollBar;
-import javax.swing.JButton;
-import javax.swing.JSeparator;
-import javax.swing.border.BevelBorder;
-import javax.swing.border.EtchedBorder;
-import javax.swing.border.SoftBevelBorder;
-
-import java.awt.Component;
-
-import javax.swing.Box;
-
-import java.awt.Dimension;
-import java.awt.SystemColor;
 import java.awt.Color;
-
-import javax.swing.UIManager;
-
-import simulator.MIPSController;
-
 import java.awt.Font;
+import java.awt.SystemColor;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
+import javax.swing.JTextArea;
+import javax.swing.UIManager;
+import javax.swing.border.BevelBorder;
+import javax.swing.border.EmptyBorder;
+import javax.swing.table.DefaultTableModel;
+
+import simulator.MIPSController;
+
+@SuppressWarnings("serial")
 public class Main extends JFrame {
 
 	private MIPSController controller;

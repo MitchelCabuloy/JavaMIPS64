@@ -6,7 +6,6 @@ import java.io.FileNotFoundException;
 
 import javax.swing.JOptionPane;
 
-import exceptions.RegisterOutOfBoundsException;
 import models.OpcodeTableModel;
 import models.Program;
 import util.StreamUtils;

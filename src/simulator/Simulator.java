@@ -3,15 +3,14 @@ package simulator;
 import java.math.BigInteger;
 import java.util.Map.Entry;
 
-import exceptions.MemoryOutOfRangeException;
-import exceptions.RegisterOutOfBoundsException;
 import models.Code;
 import models.Program;
 import util.ByteUtils;
 import architecture.ALU;
-import architecture.Decoder;
 import architecture.Memory;
 import architecture.Registers;
+import exceptions.MemoryOutOfRangeException;
+import exceptions.RegisterOutOfBoundsException;
 
 public class Simulator {
 	private Memory memory;

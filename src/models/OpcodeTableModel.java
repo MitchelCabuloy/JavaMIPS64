@@ -4,6 +4,7 @@ import javax.swing.table.AbstractTableModel;
 
 import util.ByteUtils;
 
+@SuppressWarnings("serial")
 public class OpcodeTableModel extends AbstractTableModel {
 	private Program program;
 	private String[] columnNames;

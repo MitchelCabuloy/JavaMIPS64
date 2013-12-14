@@ -4,6 +4,7 @@ import java.util.HashMap;
 
 import javax.swing.table.AbstractTableModel;
 
+@SuppressWarnings("serial")
 public class SpecialRegistersTableModel extends AbstractTableModel {
 	HashMap<String, Long> registers;
 
