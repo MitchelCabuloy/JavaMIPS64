@@ -69,7 +69,7 @@ public class Simulator {
 		// TODO: Place code that saves the code to the code segment here
 		// You can get the code in program.code
 		 int lineNumber = 0;
-		 for(String code : program.getCode()){
+		 for(String code : program.getCodeStrings()){
 			 int codeSegment = Decoder.decode(code);
 			 this.memory.setCodeSegment(lineNumber, codeSegment);
 			 lineNumber++;

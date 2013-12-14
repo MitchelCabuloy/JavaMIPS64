@@ -12,23 +12,30 @@ import org.yaml.snakeyaml.Yaml;
 public class Program {
 	private Map<String, Object> registers;
 	private Map<Integer, Byte> memory;
-	private ArrayList<String> code;
+	private ArrayList<String> codeStrings;
+	private ArrayList<Code> codes;
 
 	public Program(String document) {
 		Yaml yaml = new Yaml();
 
 		Map map = (Map) yaml.load((String) document);
 
-		this.registers = (LinkedHashMap) map.get("registers");
+		registers = (LinkedHashMap) map.get("registers");
 
-		this.memory = new HashMap<Integer, Byte>();
+		memory = new HashMap<Integer, Byte>();
 		Map<Integer, Integer> memoryHash = (LinkedHashMap) map.get("memory");
 		for (Entry<Integer, Integer> entry : memoryHash.entrySet()) {
-			this.memory.put(entry.getKey(), entry.getValue().byteValue());
+			memory.put(entry.getKey(), entry.getValue().byteValue());
 		}
 
-		this.code = new ArrayList<String>(Arrays.asList(((String) map
+		codeStrings = new ArrayList<String>(Arrays.asList(((String) map
 				.get("code")).split("\n")));
+
+		codes = new ArrayList<Code>();
+
+		for (String codeString : codeStrings) {
+			codes.add(new Code(codeString));
+		}
 
 	}
 
@@ -40,7 +47,15 @@ public class Program {
 		return this.memory;
 	}
 
-	public ArrayList<String> getCode() {
-		return this.code;
+	public ArrayList<String> getCodeStrings() {
+		return this.codeStrings;
 	}
+
+	public ArrayList<Code> getCodes() {
+		return codes;
+	}
+
+//	public void setCodes(ArrayList<Code> codes) {
+//		this.codes = codes;
+//	}
 }
