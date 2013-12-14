@@ -64,5 +64,4 @@ public class Code {
 	public void setAddress(int address) {
 		this.address = address;
 	}
-
 }

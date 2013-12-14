@@ -35,8 +35,8 @@ public class Simulator {
 	}
 
 	public void loadProgram(Program program) {
-		this.memory = new Memory();
-		this.registers = new Registers();
+		memory = new Memory();
+		registers = new Registers();
 
 		// Load registers
 		for (Entry<String, Object> entry : program.getRegisters().entrySet()) {
@@ -53,7 +53,7 @@ public class Simulator {
 				value = ((BigInteger) entry.getValue()).longValue();
 
 			try {
-				this.registers.setRegister(
+				registers.setRegister(
 						Integer.parseInt(register.replaceAll("R(\\d+)", "$1")),
 						value);
 			} catch (Exception e) {
@@ -63,15 +63,16 @@ public class Simulator {
 
 		// Load memory
 		for (Entry<Integer, Byte> entry : program.getMemory().entrySet()) {
-			this.memory.setMemoryAddress(entry.getKey(), entry.getValue());
+			memory.setMemoryAddress(entry.getKey(), entry.getValue());
 		}
 
 		// TODO: Place code that saves the code to the code segment here
 		// You can get the code in program.code
 		 int lineNumber = 0;
-		 for(String code : program.getCodeStrings()){
-			 int codeSegment = Decoder.decode(code);
-			 this.memory.setCodeSegment(lineNumber, codeSegment);
+		 for(Code code : program.getCodes()){
+			 // int codeSegment = Decoder.decode(code);
+			 memory.setCodeSegment(lineNumber, code.getInstruction());
+			 code.setAddress(lineNumber * 4);
 			 lineNumber++;
 		 }
 
@@ -79,13 +80,13 @@ public class Simulator {
 //		this.memory.setCodeSegment(0, 0x00231025); // OR R3, R1, R2
 
 		// Save changes to registers
-		this.registers.commit();
+		registers.commit();
 
 		// Save changes to memory
-		this.memory.commit();
+		memory.commit();
 
-		System.out.println("Initial");
-		this.registers.seeRegisters();
+		// System.out.println("Initial");
+		// registers.seeRegisters();
 		// this.memory.seeMemory();
 	}
 
