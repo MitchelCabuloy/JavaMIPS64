@@ -1,4 +1,4 @@
-package simulator;
+package models;
 
 import util.ByteUtils;
 import architecture.Decoder;

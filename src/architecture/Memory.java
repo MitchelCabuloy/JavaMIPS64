@@ -5,7 +5,7 @@ import java.nio.ByteOrder;
 import java.util.HashMap;
 import java.util.Map.Entry;
 
-import javax.swing.table.AbstractTableModel;
+import models.MemoryTableModel;
 
 public class Memory {
 	private HashMap<Integer, Byte> memory;
@@ -131,71 +131,6 @@ public class Memory {
 						entry.getValue()));
 		}
 	}
-}
-
-class MemoryTableModel extends AbstractTableModel {
-	private HashMap<Integer, Byte> memory;
-
-	public MemoryTableModel(HashMap<Integer, Byte> memory) {
-		this.memory = memory;
-	}
-	
-	@Override
-	public String getColumnName(int column) {
-		if (column == 0)
-			return "Address";
-		else
-			return "Value";
-	}
-
-	@Override
-	public int getRowCount() {
-		return memory.size();
-	}
-
-	@Override
-	public int getColumnCount() {
-		return 2;
-	}
-
-	@Override
-	public Object getValueAt(int rowIndex, int columnIndex) {
-		int i = 0;
-		for (Entry<Integer, Byte> entry : memory.entrySet()) {
-			if (i == rowIndex) {
-				if (columnIndex == 0) {
-					return entry.getKey();
-				} else {
-					return String.format("%02x",entry.getValue()).toUpperCase();
-				}
-			}
-			i++;
-		}
-		return null;
-	}
-
-}
-
-class OpcodeTableModel extends AbstractTableModel{
-
-	@Override
-	public int getRowCount() {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	@Override
-	public int getColumnCount() {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	@Override
-	public Object getValueAt(int rowIndex, int columnIndex) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-	
 }
 
 class MemoryOutOfRangeException extends RuntimeException {

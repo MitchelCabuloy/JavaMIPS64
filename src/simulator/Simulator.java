@@ -3,6 +3,8 @@ package simulator;
 import java.math.BigInteger;
 import java.util.Map.Entry;
 
+import models.Code;
+import models.Program;
 import util.ByteUtils;
 import architecture.ALU;
 import architecture.Decoder;
