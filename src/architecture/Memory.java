@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.Map.Entry;
 
 import exceptions.CodeSegmentOutOfRangeException;
+import exceptions.MemoryOutOfRangeException;
 import exceptions.RegisterOutOfBoundsException;
 import models.MemoryTableModel;
 
@@ -132,17 +133,5 @@ public class Memory {
 				System.out.println(String.format("%04x: %02x", entry.getKey(),
 						entry.getValue()));
 		}
-	}
-}
-
-class MemoryOutOfRangeException extends RuntimeException {
-	public MemoryOutOfRangeException() {
-		super("Memory address entered is beyond the 0x1000 to 0x1FFF range");
-	};
-
-	public MemoryOutOfRangeException(int address) {
-		super(String.format(
-				"Memory address %04x is beyond the 0x1000 to 0x1FFF range",
-				address));
 	}
 }
