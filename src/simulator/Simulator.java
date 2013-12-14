@@ -1,6 +1,7 @@
 package simulator;
 
 import java.math.BigInteger;
+import java.util.HashMap;
 import java.util.Map.Entry;
 
 import models.Code;
@@ -15,6 +16,7 @@ import exceptions.RegisterOutOfBoundsException;
 public class Simulator {
 	private Memory memory;
 	private Registers registers;
+	private HashMap<String, Boolean> flags;
 
 	public Simulator() {
 		this.memory = new Memory();
@@ -41,6 +43,9 @@ public class Simulator {
 			throws RegisterOutOfBoundsException, MemoryOutOfRangeException {
 		memory = new Memory();
 		registers = new Registers();
+		flags = new HashMap<String, Boolean>();
+		flags.put("stall", false);
+		flags.put("squash", false);
 
 		// Load registers
 		for (Entry<String, Object> entry : program.getRegisters().entrySet()) {
@@ -91,6 +96,11 @@ public class Simulator {
 
 	public void step() throws RegisterOutOfBoundsException,
 			MemoryOutOfRangeException {
+		if(flags.get("squash")){
+			registers.setRegister("IF/ID.IR", 0L);
+			registers.commit();
+		}
+		
 		// Instruction fetch
 		// Set IF/ID.IR to Memory[PC]
 		registers.setRegister("IF/ID.IR", ByteUtils.getUnsignedInt(memory
@@ -111,6 +121,8 @@ public class Simulator {
 		if (ByteUtils.getOpcode((int) registers.getRegister("IF/ID.IR")) == 2) { // J
 			registers.setRegister("PC", ByteUtils.getJOffset((int) registers
 					.getRegister("IF/ID.IR")) * 4);
+			// Since we're branching, squash the IF/ID.IR
+			flags.put("squash", true);
 		} else if (ByteUtils.getOpcode((int) registers.getRegister("IF/ID.IR")) == 5
 				&& ByteUtils.getRS((int) registers.getRegister("IF/ID.IR")) != 0) { // BNEZ
 			registers.setRegister(
@@ -118,6 +130,8 @@ public class Simulator {
 					registers.getRegister("PC")
 							+ (ByteUtils.getImm((int) registers
 									.getRegister("IF/ID.IR")) * 4));
+			// Since we're branching, squash the IF/ID.IR
+			flags.put("squash", true);
 		}
 
 		// Execute
