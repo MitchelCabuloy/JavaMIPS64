@@ -6,6 +6,7 @@ import java.nio.ByteOrder;
 import java.util.HashMap;
 import java.util.Map.Entry;
 
+import util.ByteUtils;
 import models.MemoryTableModel;
 import exceptions.CodeSegmentOutOfRangeException;
 import exceptions.MemoryOutOfRangeException;
@@ -109,7 +110,7 @@ public class Memory {
 	public static long getLMD(long IR, Registers registers, Memory memory) throws RegisterOutOfBoundsException, MemoryOutOfRangeException {
 		int address = (int) registers.getRegister("EX/MEM.ALUOUTPUT");
 		String byteString = "";
-		for (int i = 0; i < 4; i++) {
+		for (int i = 0; i < 8; i++) {
 			byteString += byteString
 					+ String.format(
 							"%8s",
@@ -119,5 +120,14 @@ public class Memory {
 		}
 		return new BigInteger(byteString, 2).longValue(); 
 		// return Long.parseLong(byteString, 2);
+	}
+	
+	public void putDouble(int address, long value) throws MemoryOutOfRangeException{
+		byte[] data = ByteUtils.longToBytes(value);
+		
+		for(int i = 0; i < 8; i++){
+			System.out.println(String.format("%02x", data[i]));
+			setMemoryAddress(address + i, data[i]);
+		}
 	}
 }

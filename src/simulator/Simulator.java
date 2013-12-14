@@ -132,6 +132,11 @@ public class Simulator {
 			registers.setRegister("MEM/WB.LMD", Memory.getLMD(
 					registers.getRegister("EX/MEM.IR"), registers, memory));
 			break;
+		case 63: // SD
+			memory.putDouble((int) registers.getRegister("EX/MEM.ALUOUTPUT"),
+					registers.getRegister(ByteUtils.getRT((int) registers
+							.getRegister("EX/MEM.IR"))));
+			break;
 		}
 		registers.setRegister("MEM/WB.ALUOUTPUT",
 				registers.getRegister("EX/MEM.ALUOUTPUT"));
