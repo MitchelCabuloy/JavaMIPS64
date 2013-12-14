@@ -28,16 +28,9 @@ public class MIPSController {
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		}
-
-//		Program program = new Program(document);
 		
 		window.setVisible(true);
 		window.getCode().setText(document);
-//		this.simulator.loadProgram(program);
-		
-//		for(int i = 0; i < 5; i++){
-//			this.simulator.step();
-//		}
 	}
 	
 	public void stepAction(){
