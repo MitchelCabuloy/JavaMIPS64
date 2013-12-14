@@ -4,6 +4,8 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 
+import javax.swing.JOptionPane;
+
 import models.OpcodeTableModel;
 import models.Program;
 import util.StreamUtils;
@@ -40,16 +42,26 @@ public class MIPSController {
 	}
 	
 	public void loadAction(){	    
-	    Program program = new Program(window.getCode().getText());
-	    simulator.loadProgram(program);
-	    
-	    // Update tables
-	    window.getRegisters().setModel(simulator.getRegisters().getRegistersTableModel());
-	    window.getSpecialRegisters().setModel(simulator.getRegisters().getSpecialRegistersTableModel());
-	    window.getMemory().setModel(simulator.getMemory().getMemoryTableModel());
-	    window.getMemory().getRowSorter().toggleSortOrder(0);
-	    window.getOpcode().setModel(new OpcodeTableModel(program));
-	    window.repaint();
+	    Program program;
+		try {
+			program = new Program(window.getCode().getText());
+			simulator.loadProgram(program);
+		    
+		    // Update tables
+		    window.getRegisters().setModel(simulator.getRegisters().getRegistersTableModel());
+		    window.getSpecialRegisters().setModel(simulator.getRegisters().getSpecialRegistersTableModel());
+		    window.getMemory().setModel(simulator.getMemory().getMemoryTableModel());
+		    window.getMemory().getRowSorter().toggleSortOrder(0);
+		    window.getOpcode().setModel(new OpcodeTableModel(program));
+		    window.repaint();
+		} catch (Exception e) {
+			JOptionPane.showMessageDialog(window,
+					e.getMessage(),
+				    e.getClass().getName(),
+				    JOptionPane.ERROR_MESSAGE);
+
+			e.printStackTrace();
+		}
 	}
 
 }

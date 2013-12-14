@@ -9,13 +9,15 @@ import java.util.Map.Entry;
 
 import org.yaml.snakeyaml.Yaml;
 
+import exceptions.InvalidSyntaxException;
+
 public class Program {
 	private Map<String, Object> registers;
 	private Map<Integer, Byte> memory;
 	private ArrayList<String> codeStrings;
 	private ArrayList<Code> codes;
 
-	public Program(String document) {
+	public Program(String document) throws Exception {
 		Yaml yaml = new Yaml();
 
 		Map map = (Map) yaml.load((String) document);

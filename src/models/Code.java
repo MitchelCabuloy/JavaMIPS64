@@ -1,5 +1,6 @@
 package models;
 
+import exceptions.InvalidSyntaxException;
 import util.ByteUtils;
 import architecture.Decoder;
 
@@ -8,9 +9,9 @@ public class Code {
 	private int instruction;
 	private String codeString;
 
-	public Code(String codeString) {
+	public Code(String codeString) throws InvalidSyntaxException {
 		this.codeString = codeString;
-		this.instruction = Decoder.decode(codeString);
+		this.instruction = Decoder.decode2(codeString);
 	}
 
 	public int getInstruction() {
