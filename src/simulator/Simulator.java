@@ -106,7 +106,7 @@ public class Simulator {
 		registers.setRegister("ID/EX.Imm",
 				ByteUtils.getImm((int) registers.getRegister("IF/ID.IR")));
 		// Set PC here because Pipeline #2
-		if (ByteUtils.getOpcode((int) registers.getRegister("IF/ID.IR")) == 3) { // J
+		if (ByteUtils.getOpcode((int) registers.getRegister("IF/ID.IR")) == 2) { // J
 			registers.setRegister("PC", ByteUtils.getJOffset((int) registers
 					.getRegister("IF/ID.IR")) * 4);
 		} else if (ByteUtils.getOpcode((int) registers.getRegister("IF/ID.IR")) == 5
