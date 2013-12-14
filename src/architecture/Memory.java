@@ -1,14 +1,15 @@
 package architecture;
 
+import java.math.BigInteger;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.util.HashMap;
 import java.util.Map.Entry;
 
+import models.MemoryTableModel;
 import exceptions.CodeSegmentOutOfRangeException;
 import exceptions.MemoryOutOfRangeException;
 import exceptions.RegisterOutOfBoundsException;
-import models.MemoryTableModel;
 
 public class Memory {
 	private HashMap<Integer, Byte> memory;
@@ -116,7 +117,7 @@ public class Memory {
 									.getMemoryAddress(address + i) & 0xFF))
 							.replace(' ', '0');
 		}
-
-		return Long.parseLong(byteString, 2);
+		return new BigInteger(byteString, 2).longValue(); 
+		// return Long.parseLong(byteString, 2);
 	}
 }
