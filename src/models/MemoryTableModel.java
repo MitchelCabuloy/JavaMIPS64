@@ -1,7 +1,6 @@
 package models;
 
 import java.util.HashMap;
-import java.util.Map.Entry;
 
 import javax.swing.table.AbstractTableModel;
 
@@ -12,7 +11,7 @@ public class MemoryTableModel extends AbstractTableModel {
 	public MemoryTableModel(HashMap<Integer, Byte> memory) {
 		this.memory = memory;
 	}
-	
+
 	@Override
 	public String getColumnName(int column) {
 		if (column == 0)
@@ -23,7 +22,7 @@ public class MemoryTableModel extends AbstractTableModel {
 
 	@Override
 	public int getRowCount() {
-		return memory.size();
+		return memory.keySet().size();
 	}
 
 	@Override
@@ -33,18 +32,17 @@ public class MemoryTableModel extends AbstractTableModel {
 
 	@Override
 	public Object getValueAt(int rowIndex, int columnIndex) {
-		int i = 0;
-		for (Entry<Integer, Byte> entry : memory.entrySet()) {
-			if (i == rowIndex) {
-				if (columnIndex == 0) {
-					return entry.getKey();
-				} else {
-					return String.format("%02x",entry.getValue()).toUpperCase();
-				}
-			}
-			i++;
+		Object[][] tableData = new Object[memory.keySet().size()][2];
+
+		int index = 0;
+		for (Integer key : memory.keySet()) {
+			tableData[index][0] = key;
+			tableData[index][1] = String.format("%02x", memory.get(key))
+					.toUpperCase();
+			index++;
 		}
-		return null;
+
+		return tableData[rowIndex][columnIndex];
 	}
 
 }

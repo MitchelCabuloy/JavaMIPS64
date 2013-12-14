@@ -41,6 +41,7 @@ public class MIPSController {
 	public void stepAction() {
 		try {
 			simulator.step();
+			simulator.getMemory().getMemoryTableModel().fireTableDataChanged();
 		} catch (Exception e) {
 			JOptionPane.showMessageDialog(window, e.getMessage(), e.getClass()
 					.getName(), JOptionPane.ERROR_MESSAGE);

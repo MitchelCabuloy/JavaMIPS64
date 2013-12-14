@@ -126,7 +126,6 @@ public class Memory {
 		byte[] data = ByteUtils.longToBytes(value);
 		
 		for(int i = 0; i < 8; i++){
-			System.out.println(String.format("%02x", data[i]));
 			setMemoryAddress(address + i, data[i]);
 		}
 	}
