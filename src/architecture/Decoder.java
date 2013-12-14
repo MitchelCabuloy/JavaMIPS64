@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import exceptions.InvalidSyntaxException;
 import util.ByteUtils;
 
 public class Decoder {
@@ -329,13 +330,5 @@ public class Decoder {
 		}
 		
 		throw new InvalidSyntaxException(codeString);
-	}
-}
-
-class InvalidSyntaxException extends Exception{
-	public InvalidSyntaxException(){}
-	
-	public InvalidSyntaxException(String instruction){
-		super("The line \"" + instruction + "\" is not valid");
 	}
 }

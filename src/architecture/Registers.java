@@ -3,6 +3,7 @@ package architecture;
 import java.util.HashMap;
 import java.util.Map.Entry;
 
+import exceptions.RegisterOutOfBoundsException;
 import models.RegistersTableModel;
 import models.SpecialRegistersTableModel;
 
@@ -130,18 +131,5 @@ public class Registers {
 			System.out.println(String.format("%s: %016x", entry.getKey(),
 					entry.getValue()));
 		}
-	}
-}
-
-class RegisterOutOfBoundsException extends RuntimeException {
-	public RegisterOutOfBoundsException() {
-	}
-
-	public RegisterOutOfBoundsException(String register) {
-		super(String.format("Register %s is not a valid register", register));
-	}
-
-	public RegisterOutOfBoundsException(int number) {
-		super(String.format("Register R%d is not a valid register", number));
 	}
 }

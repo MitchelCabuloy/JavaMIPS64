@@ -5,6 +5,7 @@ import java.nio.ByteOrder;
 import java.util.HashMap;
 import java.util.Map.Entry;
 
+import exceptions.CodeSegmentOutOfRangeException;
 import models.MemoryTableModel;
 
 public class Memory {
@@ -142,15 +143,5 @@ class MemoryOutOfRangeException extends RuntimeException {
 		super(String.format(
 				"Memory address %04x is beyond the 0x1000 to 0x1FFF range",
 				address));
-	}
-}
-
-class CodeSegmentOutOfRangeException extends RuntimeException {
-	public CodeSegmentOutOfRangeException() {
-		super("Code segment entered is out of range");
-	}
-
-	public CodeSegmentOutOfRangeException(int lineNumber) {
-		super("Code segment " + lineNumber + " is out of range");
 	}
 }
