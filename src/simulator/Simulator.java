@@ -65,7 +65,6 @@ public class Simulator {
 			memory.setMemoryAddress(entry.getKey(), entry.getValue());
 		}
 
-		// TODO: Place code that saves the code to the code segment here
 		// You can get the code in program.code
 		int lineNumber = 0;
 		for (Code code : program.getCodes()) {
