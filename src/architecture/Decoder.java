@@ -111,7 +111,7 @@ public class Decoder {
 						sb.append("0000000000000000");
 					} else if (m.group(3).contains("#")) { // Line number
 						sb.append(ByteUtils.getBinaryString(
-								Integer.parseInt(m.group(3), 16)).substring(16));
+								Integer.parseInt(m.group(3).substring(1), 16)).substring(16));
 					}
 					break;
 				case "LD":
@@ -148,7 +148,7 @@ public class Decoder {
 						sb.append("00000000000000000000000000");
 					} else {
 						sb.append(ByteUtils.getBinaryString(
-								Integer.parseInt(m.group(2), 16)).substring(16));
+								Integer.parseInt(m.group(2).substring(1), 16)).substring(6));
 					}
 					break;
 				}
