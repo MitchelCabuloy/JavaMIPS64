@@ -97,6 +97,7 @@ public class Simulator {
 
 	public void step() throws RegisterOutOfBoundsException,
 			MemoryOutOfRangeException {
+		// Detect stall here, and set stallCounter = 3
 		if (isStalled()) {
 			stallCounter = 3;
 		}
@@ -106,8 +107,6 @@ public class Simulator {
 			registers.setRegister("IF/ID.IR", 0L);
 			registers.commit();
 		}
-
-		// Detect stall here, and set stallCounter = 3
 
 		// Instruction fetch
 		if (stallCounter == 0) {
