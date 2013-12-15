@@ -252,9 +252,9 @@ public class Simulator {
 
 		// If I-Type
 		if (IDEX_RT != 0) {
-			if (ByteUtils.getOpcode((int) registers.getRegister("IF/ID.IR")) == 24
+			if (ByteUtils.getOpcode((int) registers.getRegister("ID/EX.IR")) == 24
 					|| ByteUtils.getOpcode((int) registers
-							.getRegister("IF/ID.IR")) == 55) {
+							.getRegister("ID/EX.IR")) == 55) {
 				if (IDEX_RT == IFID_RS || IDEX_RT == IFID_RT) {
 					return true;
 				}
