@@ -171,7 +171,7 @@ public class Simulator {
 			registers.setRegister("ID/EX.A", 0L);
 			registers.setRegister("ID/EX.B", 0L);
 			registers.setRegister("ID/EX.Imm", 0L);
-			stallCounter--;
+			// stallCounter--;
 		}
 
 		// Execute
@@ -281,7 +281,12 @@ public class Simulator {
 		// If there's something in there
 		if (IDEX_IR != 0) {
 			// Add it to the pipeline
-			pipeline.put(IDEX_IR, "ID");
+			if (stallCounter != 0) {
+				pipeline.put(IDEX_IR, "*");
+				stallCounter--;
+			} else {
+				pipeline.put(IDEX_IR, "ID");
+			}
 		}
 
 		long EXMEM_IR = registers.getRegister("ID/EX.IR");
