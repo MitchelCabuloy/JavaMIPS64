@@ -188,6 +188,14 @@ public class Main extends JFrame {
 		btnRun.setBackground(SystemColor.window);
 		btnRun.setBounds(214, 200, 80, 20);
 		contentPane.add(btnRun);
+		
+		btnRun.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				controller.runAction();
+			}
+		});
 
 		JScrollPane spCode = new JScrollPane();
 		spCode.setBounds(30, 44, 350, 150);

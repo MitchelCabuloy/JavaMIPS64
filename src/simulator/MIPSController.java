@@ -7,7 +7,6 @@ import java.io.FileNotFoundException;
 import javax.swing.JOptionPane;
 
 import models.OpcodeTableModel;
-import models.PipelineMapTableModel;
 import models.Program;
 import util.StreamUtils;
 import views.Main;
@@ -39,6 +38,27 @@ public class MIPSController {
 		window.getCode().setText(document);
 	}
 
+	public void runAction() {
+		try {
+			while (simulator.isRunning()) {
+				stepAction();
+			}
+			// Last one. lol
+			stepAction();
+		} catch (Exception e) {
+
+			if (e.getClass() == NullPointerException.class) {
+				JOptionPane.showMessageDialog(window, "No program loaded",
+						"Missing program", JOptionPane.ERROR_MESSAGE);
+			} else {
+				JOptionPane.showMessageDialog(window, e.getMessage(), e
+						.getClass().getName(), JOptionPane.ERROR_MESSAGE);
+			}
+
+			e.printStackTrace();
+		}
+	}
+
 	public void stepAction() {
 		try {
 			simulator.step();
@@ -46,9 +66,14 @@ public class MIPSController {
 			simulator.getPipelineMapTableModel().fireTableStructureChanged();
 			simulator.getPipelineMapTableModel().fireTableDataChanged();
 		} catch (Exception e) {
-			JOptionPane.showMessageDialog(window, e.getMessage(), e.getClass()
-					.getName(), JOptionPane.ERROR_MESSAGE);
-
+			if (e.getClass() == NullPointerException.class) {
+				JOptionPane.showMessageDialog(window, "No program loaded",
+						"Missing program", JOptionPane.ERROR_MESSAGE);
+			} else {
+				JOptionPane.showMessageDialog(window, e.getMessage(), e
+						.getClass().getName(), JOptionPane.ERROR_MESSAGE);
+			}
+			
 			e.printStackTrace();
 		}
 		window.repaint();
@@ -69,7 +94,8 @@ public class MIPSController {
 					simulator.getMemory().getMemoryTableModel());
 			window.getMemory().getRowSorter().toggleSortOrder(0);
 			window.getOpcode().setModel(new OpcodeTableModel(program));
-			window.getPipelineMap().setModel(simulator.getPipelineMapTableModel());
+			window.getPipelineMap().setModel(
+					simulator.getPipelineMapTableModel());
 			window.repaint();
 		} catch (Exception e) {
 			JOptionPane.showMessageDialog(window, e.getMessage(), e.getClass()

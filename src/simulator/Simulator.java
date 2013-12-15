@@ -317,4 +317,21 @@ public class Simulator {
 
 		pipeline.clear();
 	}
+
+	public boolean isRunning() throws RegisterOutOfBoundsException{
+		long IFID_IR = ByteUtils.getUnsignedInt(memory
+				.getCodeSegment((int) (registers.getRegister("PC") / 4)));
+
+		long IDEX_IR = registers.getRegister("IF/ID.IR");
+
+		long EXMEM_IR = registers.getRegister("ID/EX.IR");
+
+		long MEMWB_IR = registers.getRegister("EX/MEM.IR");
+
+		long WB_IR = registers.getRegister("MEM/WB.IR");
+		
+		if(IFID_IR == 0 && IDEX_IR == 0 && EXMEM_IR == 0 && MEMWB_IR == 0 && WB_IR == 0)
+			return false;
+		return true;
+	}
 }

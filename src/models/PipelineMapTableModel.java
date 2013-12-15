@@ -19,7 +19,7 @@ public class PipelineMapTableModel extends AbstractTableModel{
 	}
 	
 	public void updateData(int clockCycle, HashMap<Long, String> pipeline){
-		maxCycles = clockCycle + 1;
+		maxCycles = clockCycle + 2;
 		
 		for(Entry<Long, String> entry : pipeline.entrySet()){
 			boolean found = false;
@@ -33,21 +33,28 @@ public class PipelineMapTableModel extends AbstractTableModel{
 //						if(array.get(i) == null)
 //						tempArray.add(null);
 					
-					array.add(clockCycle + 1, entry.getValue());
+					array.add(clockCycle + 2, entry.getValue());
 					found = true;
 				}
 			}
 			
 			// If an instruction is not in the map, add
 			if(!found){				
-				ArrayList<Object> tempArray = new ArrayList<Object>(clockCycle + 2);
+				ArrayList<Object> tempArray = new ArrayList<Object>(clockCycle + 3);
 				
-				for(int i = 0; i < clockCycle + 2; i++)
+				for(int i = 0; i < clockCycle + 3; i++)
 					tempArray.add(null);
 				
 				// Add key and first value
+				
+				for(Code code : codes){
+					if(code.getInstruction() == entry.getKey().intValue()){
+						tempArray.set(1, code.getCodeString());
+						break;
+					}
+				}
 				tempArray.set(0, entry.getKey());
-				tempArray.set(clockCycle + 1, entry.getValue());
+				tempArray.set(clockCycle + 2, entry.getValue());
 				
 				pipelineMap.add(tempArray);
 			}
@@ -57,9 +64,12 @@ public class PipelineMapTableModel extends AbstractTableModel{
 	@Override
 	public String getColumnName(int column) {
 		if(column == 0){
+			return "Opcode";
+		}
+		if(column == 1){
 			return "Instruction";
 		}
-		return String.format("%d", column);
+		return String.format("%d", column - 1);
 	}
 	
 	@Override
@@ -75,6 +85,9 @@ public class PipelineMapTableModel extends AbstractTableModel{
 	@Override
 	public Object getValueAt(int rowIndex, int columnIndex) {
 		try {
+			if(columnIndex == 0){
+				return String.format("%08x", (Long)pipelineMap.get(rowIndex).get(columnIndex));
+			}
 			return pipelineMap.get(rowIndex).get(columnIndex);
 		} catch (Exception e) {
 			return null;
