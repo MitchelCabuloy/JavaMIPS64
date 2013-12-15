@@ -208,17 +208,34 @@ public class Simulator {
 	private boolean isStalled() throws RegisterOutOfBoundsException {
 
 		long IDEX_RD = ByteUtils.getRD((int) registers.getRegister("ID/EX.IR"));
+		long IDEX_RT = ByteUtils.getRT((int) registers.getRegister("ID/EX.IR"));
 		long IFID_RS = ByteUtils.getRS((int) registers.getRegister("IF/ID.IR"));
 		long IFID_RT = ByteUtils.getRT((int) registers.getRegister("IF/ID.IR"));
-		
+
 		// If J, no dep
 		if (ByteUtils.getOpcode((int) registers.getRegister("IF/ID.IR")) == 2)
 			return false;
 
 		// No dependencies if we're dealing with R0
-		if (IDEX_RD != 0 && IFID_RS != 0 && IFID_RT != 0) {
+		// If R-Type
+		if (IDEX_RD != 0) {
 			// if there's a dependency
 			if (IDEX_RD == IFID_RS || IDEX_RD == IFID_RT) {
+				return true;
+			}
+		}
+
+		// If I-Type
+		if (IDEX_RT != 0) {
+//			if (ByteUtils.getOpcode((int) registers.getRegister("IF/ID.IR")) == 24
+//					|| ByteUtils.getOpcode((int) registers
+//							.getRegister("IF/ID.IR")) == 55) {
+//				if (IDEX_RT == IFID_RS || IDEX_RT == IFID_RT) {
+//					return true;
+//				}
+//			}
+			
+			if (IDEX_RT == IFID_RS || IDEX_RT == IFID_RT) {
 				return true;
 			}
 		}
