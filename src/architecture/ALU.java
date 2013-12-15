@@ -29,7 +29,7 @@ public class ALU {
 						- registers.getRegister("ID/EX.B");
 			}
 			break;
-
+		case 24: // DADDI
 		case 55: // LD
 		case 63: // SD
 			return ByteUtils.getImm((int) IR)
