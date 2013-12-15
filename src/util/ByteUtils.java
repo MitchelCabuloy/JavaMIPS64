@@ -48,7 +48,10 @@ public class ByteUtils {
 
 	public static int getImm(Integer codeSegment) {
 		String RS = getBinaryString(codeSegment);
-		return Integer.parseInt(RS.substring(16, 32), 2);
+		if(RS.substring(16, 17).equals("1")){
+			RS = "1111111111111111" + RS.substring(16, 32);
+		}
+		return (int) Long.parseLong(RS, 2);
 	}
 
 	public static int getFunc(Integer codeSegment) {

@@ -18,12 +18,12 @@ public class Decoder {
 			Pattern.compile("^[ \\t]*(L\\d{1,2}: )?(XOR) R(\\d{1,2}), R(\\d{1,2}), R(\\d{1,2})$"),
 			Pattern.compile("^[ \\t]*(L\\d{1,2}: )?(SLT) R(\\d{1,2}), R(\\d{1,2}), R(\\d{1,2})$"),
 			Pattern.compile("^[ \\t]*(L\\d{1,2}: )?(BNEZ) R(\\d{1,2}), (L\\d)$"),
-			Pattern.compile("^[ \\t]*(L\\d{1,2}: )?(BNEZ) R(\\d{1,2}), (#\\d{1,4})$"),
-			Pattern.compile("^[ \\t]*(L\\d{1,2}: )?(LD) R(\\d{1,2}), (\\d{1,4})\\(R(\\d{1,2})\\)$"),
-			Pattern.compile("^[ \\t]*(L\\d{1,2}: )?(SD) R(\\d{1,2}), (\\d{1,4})\\(R(\\d{1,2})\\)$"),
-			Pattern.compile("^[ \\t]*(L\\d{1,2}: )?(DADDI) R(\\d{1,2}), R(\\d{1,2}), (#\\d{1,4})$"),
+			Pattern.compile("^[ \\t]*(L\\d{1,2}: )?(BNEZ) R(\\d{1,2}), (#[0-9a-fA-F]{1,4})$"),
+			Pattern.compile("^[ \\t]*(L\\d{1,2}: )?(LD) R(\\d{1,2}), ([0-9a-fA-F]{1,4})\\(R(\\d{1,2})\\)$"),
+			Pattern.compile("^[ \\t]*(L\\d{1,2}: )?(SD) R(\\d{1,2}), ([0-9a-fA-F]{1,4})\\(R(\\d{1,2})\\)$"),
+			Pattern.compile("^[ \\t]*(L\\d{1,2}: )?(DADDI) R(\\d{1,2}), R(\\d{1,2}), (#[0-9a-fA-F]{1,4})$"),
 			Pattern.compile("^[ \\t]*(L\\d{1,2}: )?(J) (L\\d)$"),
-			Pattern.compile("^[ \\t]*(L\\d{1,2}: )?(J) (#\\d{1,4})$") };
+			Pattern.compile("^[ \\t]*(L\\d{1,2}: )?(J) (#[0-9a-fA-F]{1,4})$") };
 
 	private final static HashMap<String, String> instructions = instructionsInitializer();
 
