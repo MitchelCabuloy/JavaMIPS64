@@ -11,18 +11,18 @@ import exceptions.RegisterOutOfBoundsException;
 
 public class Decoder {
 	private final static Pattern[] patterns = {
-			Pattern.compile("^[ \\t]*(DADD) R(\\d{1,2}), R(\\d{1,2}), R(\\d{1,2})$"),
-			Pattern.compile("^[ \\t]*(DSUB) R(\\d{1,2}), R(\\d{1,2}), R(\\d{1,2})$"),
-			Pattern.compile("^[ \\t]*(OR) R(\\d{1,2}), R(\\d{1,2}), R(\\d{1,2})$"),
-			Pattern.compile("^[ \\t]*(XOR) R(\\d{1,2}), R(\\d{1,2}), R(\\d{1,2})$"),
-			Pattern.compile("^[ \\t]*(SLT) R(\\d{1,2}), R(\\d{1,2}), R(\\d{1,2})$"),
-			Pattern.compile("^[ \\t]*(BNEZ) R(\\d{1,2}), (L\\d)$"),
-			Pattern.compile("^[ \\t]*(BNEZ) R(\\d{1,2}), (#\\d{1,4})$"),
-			Pattern.compile("^[ \\t]*(LD) R(\\d{1,2}), (\\d{1,4})\\(R(\\d{1,2})\\)$"),
-			Pattern.compile("^[ \\t]*(SD) R(\\d{1,2}), (\\d{1,4})\\(R(\\d{1,2})\\)$"),
-			Pattern.compile("^[ \\t]*(DADDI) R(\\d{1,2}), R(\\d{1,2}), (#\\d{1,4})$"),
-			Pattern.compile("^[ \\t]*(J) (L\\d)$"),
-			Pattern.compile("^[ \\t]*(J) (#\\d{1,4})$") };
+			Pattern.compile("^[ \\t]*(L\\d{1,2}: )?(DADD) R(\\d{1,2}), R(\\d{1,2}), R(\\d{1,2})$"),
+			Pattern.compile("^[ \\t]*(L\\d{1,2}: )?(DSUB) R(\\d{1,2}), R(\\d{1,2}), R(\\d{1,2})$"),
+			Pattern.compile("^[ \\t]*(L\\d{1,2}: )?(OR) R(\\d{1,2}), R(\\d{1,2}), R(\\d{1,2})$"),
+			Pattern.compile("^[ \\t]*(L\\d{1,2}: )?(XOR) R(\\d{1,2}), R(\\d{1,2}), R(\\d{1,2})$"),
+			Pattern.compile("^[ \\t]*(L\\d{1,2}: )?(SLT) R(\\d{1,2}), R(\\d{1,2}), R(\\d{1,2})$"),
+			Pattern.compile("^[ \\t]*(L\\d{1,2}: )?(BNEZ) R(\\d{1,2}), (L\\d)$"),
+			Pattern.compile("^[ \\t]*(L\\d{1,2}: )?(BNEZ) R(\\d{1,2}), (#\\d{1,4})$"),
+			Pattern.compile("^[ \\t]*(L\\d{1,2}: )?(LD) R(\\d{1,2}), (\\d{1,4})\\(R(\\d{1,2})\\)$"),
+			Pattern.compile("^[ \\t]*(L\\d{1,2}: )?(SD) R(\\d{1,2}), (\\d{1,4})\\(R(\\d{1,2})\\)$"),
+			Pattern.compile("^[ \\t]*(L\\d{1,2}: )?(DADDI) R(\\d{1,2}), R(\\d{1,2}), (#\\d{1,4})$"),
+			Pattern.compile("^[ \\t]*(L\\d{1,2}: )?(J) (L\\d)$"),
+			Pattern.compile("^[ \\t]*(L\\d{1,2}: )?(J) (#\\d{1,4})$") };
 
 	private final static HashMap<String, String> instructions = instructionsInitializer();
 
@@ -65,9 +65,9 @@ public class Decoder {
 				StringBuilder sb = new StringBuilder();
 
 				// Get opcode
-				sb.append(instructions.get(m.group(1).toUpperCase()));
+				sb.append(instructions.get(m.group(2).toUpperCase()));
 
-				switch (m.group(1).toUpperCase()) {
+				switch (m.group(2).toUpperCase()) {
 				case "DADD":
 				case "DSUB":
 				case "OR":
@@ -78,77 +78,86 @@ public class Decoder {
 					// RS
 					sb.append(ByteUtils.getBinaryString(
 							ExceptionUtils.validateRegister(Integer.parseInt(m
-									.group(3)))).substring(27));
+									.group(4)))).substring(27));
 
 					// RT
-					sb.append(ByteUtils.getBinaryString(ExceptionUtils.validateRegister(Integer.parseInt(m
-							.group(4)))).substring(27));
+					sb.append(ByteUtils.getBinaryString(
+							ExceptionUtils.validateRegister(Integer.parseInt(m
+									.group(5)))).substring(27));
 
 					// RD
-					sb.append(ByteUtils.getBinaryString(ExceptionUtils.validateRegister(Integer.parseInt(m
-							.group(2)))).substring(27));
+					sb.append(ByteUtils.getBinaryString(
+							ExceptionUtils.validateRegister(Integer.parseInt(m
+									.group(3)))).substring(27));
 
 					// 00000
 					sb.append("00000");
 
 					// Func
-					sb.append(functions.get(m.group(1)));
+					sb.append(functions.get(m.group(2)));
 
 					break;
 				case "BNEZ":
 					// RS
-					sb.append(ByteUtils.getBinaryString(ExceptionUtils.validateRegister(Integer.parseInt(m
-							.group(2)))).substring(27));
+					sb.append(ByteUtils.getBinaryString(
+							ExceptionUtils.validateRegister(Integer.parseInt(m
+									.group(3)))).substring(27));
 
 					// 00000
 					sb.append("00000");
 
 					// Imm
 					// If Label
-					if (m.group(3).toUpperCase().contains("L")) {
-						m.group(3).substring(1);
+					if (m.group(4).toUpperCase().contains("L")) {
+						m.group(4).substring(1);
 						// TODO: do something smart
 						sb.append("0000000000000000");
-					} else if (m.group(3).contains("#")) { // Line number
+					} else if (m.group(4).contains("#")) { // Line number
 						sb.append(ByteUtils.getBinaryString(
-								Integer.parseInt(m.group(3).substring(1), 16)).substring(16));
+								Integer.parseInt(m.group(4).substring(1), 16))
+								.substring(16));
 					}
 					break;
 				case "LD":
 				case "SD": // they have the same format
 					// RS
-					sb.append(ByteUtils.getBinaryString(ExceptionUtils.validateRegister(Integer.parseInt(m
-							.group(4)))).substring(27));
+					sb.append(ByteUtils.getBinaryString(
+							ExceptionUtils.validateRegister(Integer.parseInt(m
+									.group(5)))).substring(27));
 
 					// RT
-					sb.append(ByteUtils.getBinaryString(ExceptionUtils.validateRegister(Integer.parseInt(m
-							.group(2)))).substring(27));
+					sb.append(ByteUtils.getBinaryString(
+							ExceptionUtils.validateRegister(Integer.parseInt(m
+									.group(3)))).substring(27));
 
 					// Offset
 					sb.append(ByteUtils.getBinaryString(
-							Integer.parseInt(m.group(3), 16)).substring(16));
+							Integer.parseInt(m.group(4), 16)).substring(16));
 					break;
 				case "DADDI":
 					// RS
-					sb.append(ByteUtils.getBinaryString(ExceptionUtils.validateRegister(Integer.parseInt(m
-							.group(3)))).substring(27));
+					sb.append(ByteUtils.getBinaryString(
+							ExceptionUtils.validateRegister(Integer.parseInt(m
+									.group(4)))).substring(27));
 
 					// RD
-					sb.append(ByteUtils.getBinaryString(ExceptionUtils.validateRegister(Integer.parseInt(m
-							.group(2)))).substring(27));
+					sb.append(ByteUtils.getBinaryString(
+							ExceptionUtils.validateRegister(Integer.parseInt(m
+									.group(3)))).substring(27));
 
 					// IMM
 					sb.append(ByteUtils.getBinaryString(
-							Integer.parseInt(m.group(4).substring(1), 16))
+							Integer.parseInt(m.group(5).substring(1), 16))
 							.substring(16));
 					break;
 				case "J":
-					if (m.group(2).toUpperCase().contains("L")) {
+					if (m.group(3).toUpperCase().contains("L")) {
 						// TODO: do something smart with L
 						sb.append("00000000000000000000000000");
 					} else {
 						sb.append(ByteUtils.getBinaryString(
-								Integer.parseInt(m.group(2).substring(1), 16)).substring(6));
+								Integer.parseInt(m.group(3).substring(1), 16))
+								.substring(6));
 					}
 					break;
 				}
