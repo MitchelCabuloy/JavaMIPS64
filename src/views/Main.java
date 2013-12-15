@@ -97,19 +97,8 @@ public class Main extends JFrame {
 		registers.setForeground(new Color(51, 51, 51));
 		registers.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null,
 				null, null));
-		registers.setModel(new DefaultTableModel(
-				new Object[][] { { null, null }, { null, null },
-						{ null, null }, { null, null }, { null, null },
-						{ null, null }, { null, null }, { null, null },
-						{ null, null }, { null, null }, { null, null },
-						{ null, null }, { null, null }, { null, null },
-						{ null, null }, { null, null }, { null, null },
-						{ null, null }, { null, null }, { null, null },
-						{ null, null }, { null, null }, { null, null },
-						{ null, null }, { null, null }, { null, null },
-						{ null, null }, { null, null }, { null, null },
-						{ null, null }, { null, null }, { null, null }, },
-				new String[] { "Registers", "Value" }));
+		registers.setModel(new DefaultTableModel(new Object[][] {},
+				new String[] { "Register", "Value" }));
 		spRegisters.setViewportView(registers);
 
 		JButton btnLoad = new JButton("Load");
@@ -127,10 +116,8 @@ public class Main extends JFrame {
 		specialRegisters.setForeground(new Color(51, 51, 51));
 		specialRegisters.setBorder(new BevelBorder(BevelBorder.LOWERED, null,
 				null, null, null));
-		specialRegisters.setModel(new DefaultTableModel(new Object[][] {
-				{ null, null }, { null, null }, { null, null }, { null, null },
-				{ null, null }, { null, null }, { null, null }, { null, null },
-				{ null, null }, }, new String[] { "Registers", "Value" }));
+		specialRegisters.setModel(new DefaultTableModel(new Object[][] {},
+				new String[] { "Register", "Value" }));
 		specialRegisters.setBounds(605, 40, 250, 144);
 		spSpecialRegisters.setViewportView(specialRegisters);
 
@@ -154,12 +141,8 @@ public class Main extends JFrame {
 		memory.setEnabled(false);
 		memory.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null,
 				null));
-		memory.setModel(new DefaultTableModel(new Object[][] { { null, null },
-				{ null, null }, { null, null }, { null, null }, { null, null },
-				{ null, null }, { null, null }, { null, null }, { null, null },
-				{ null, null }, { null, null }, { null, null }, { null, null },
-				{ null, null }, { null, null }, }, new String[] { "Address",
-				"Value" }));
+		memory.setModel(new DefaultTableModel(new Object[][] {}, new String[] {
+				"Address", "Value" }));
 		memory.setAutoCreateRowSorter(true);
 		spMemory.setViewportView(memory);
 
@@ -171,20 +154,7 @@ public class Main extends JFrame {
 		opcode.setEnabled(false);
 		opcode.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null,
 				null));
-		opcode.setModel(new DefaultTableModel(new Object[][] {
-				{ null, null, null, null, null, null, null },
-				{ null, null, null, null, null, null, null },
-				{ null, null, null, null, null, null, null },
-				{ null, null, null, null, null, null, null },
-				{ null, null, null, null, null, null, null },
-				{ null, null, null, null, null, null, null },
-				{ null, null, null, null, null, null, null },
-				{ null, null, null, null, null, null, null },
-				{ null, null, null, null, null, null, null },
-				{ null, null, null, null, null, null, null },
-				{ null, null, null, null, null, null, null },
-				{ null, null, null, null, null, null, null },
-				{ null, null, null, null, null, null, null }, }, new String[] {
+		opcode.setModel(new DefaultTableModel(new Object[][] {}, new String[] {
 				"Address", "Instruction", "Opcode (Hex)", "IR0..5", "IR6..10",
 				"IR11..15", "IR16..31" }));
 		spOpcode.setViewportView(opcode);
