@@ -37,9 +37,9 @@ public class OpcodeTableModel extends AbstractTableModel {
 		case 0:
 			return ByteUtils.getBinaryString(code.getAddress()).substring(28);
 		case 1:
-			return code.getCodeString();
+			return code.getCodeString().toUpperCase();
 		case 2:
-			return String.format("%08x", code.getInstruction());
+			return String.format("%08X", code.getInstruction());
 		case 3:
 			return ByteUtils.getBinaryString(code.getOpcode()).substring(26);
 		case 4:
