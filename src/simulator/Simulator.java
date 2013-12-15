@@ -51,8 +51,8 @@ public class Simulator {
 	public void setPipeline(HashMap<Long, String> pipeline) {
 		this.pipeline = pipeline;
 	}
-	
-	public PipelineMapTableModel getPipelineMapTableModel(){
+
+	public PipelineMapTableModel getPipelineMapTableModel() {
 		return this.pipelineMapTableModel;
 	}
 
@@ -214,8 +214,7 @@ public class Simulator {
 					registers.getRegister("MEM/WB.LMD"));
 			break;
 		}
-		
-		
+
 		updatePipeline();
 
 		registers.commit();
@@ -249,18 +248,17 @@ public class Simulator {
 
 		// If I-Type
 		if (IDEX_RT != 0) {
-			// if (ByteUtils.getOpcode((int) registers.getRegister("IF/ID.IR"))
-			// == 24
-			// || ByteUtils.getOpcode((int) registers
-			// .getRegister("IF/ID.IR")) == 55) {
+			if (ByteUtils.getOpcode((int) registers.getRegister("IF/ID.IR")) == 24
+					|| ByteUtils.getOpcode((int) registers
+							.getRegister("IF/ID.IR")) == 55) {
+				if (IDEX_RT == IFID_RS || IDEX_RT == IFID_RT) {
+					return true;
+				}
+			}
+
 			// if (IDEX_RT == IFID_RS || IDEX_RT == IFID_RT) {
 			// return true;
 			// }
-			// }
-
-			if (IDEX_RT == IFID_RS || IDEX_RT == IFID_RT) {
-				return true;
-			}
 		}
 
 		return false;
@@ -293,7 +291,7 @@ public class Simulator {
 			// Add it to the pipeline
 			pipeline.put(EXMEM_IR, "EX");
 		}
-		
+
 		long MEMWB_IR = registers.getRegister("EX/MEM.IR");
 
 		// If there's something in there
@@ -301,7 +299,7 @@ public class Simulator {
 			// Add it to the pipeline
 			pipeline.put(MEMWB_IR, "MEM");
 		}
-		
+
 		long WB_IR = registers.getRegister("MEM/WB.IR");
 
 		// If there's something in there
@@ -309,9 +307,9 @@ public class Simulator {
 			// Add it to the pipeline
 			pipeline.put(WB_IR, "WB");
 		}
-		
+
 		pipelineMapTableModel.updateData(cycleCount, pipeline);
-		
+
 		pipeline.clear();
 	}
 }
