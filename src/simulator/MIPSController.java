@@ -7,6 +7,7 @@ import java.io.FileNotFoundException;
 import javax.swing.JOptionPane;
 
 import models.OpcodeTableModel;
+import models.PipelineMapTableModel;
 import models.Program;
 import util.StreamUtils;
 import views.Main;
@@ -42,6 +43,8 @@ public class MIPSController {
 		try {
 			simulator.step();
 			simulator.getMemory().getMemoryTableModel().fireTableDataChanged();
+			simulator.getPipelineMapTableModel().fireTableStructureChanged();
+			simulator.getPipelineMapTableModel().fireTableDataChanged();
 		} catch (Exception e) {
 			JOptionPane.showMessageDialog(window, e.getMessage(), e.getClass()
 					.getName(), JOptionPane.ERROR_MESSAGE);
@@ -66,6 +69,7 @@ public class MIPSController {
 					simulator.getMemory().getMemoryTableModel());
 			window.getMemory().getRowSorter().toggleSortOrder(0);
 			window.getOpcode().setModel(new OpcodeTableModel(program));
+			window.getPipelineMap().setModel(simulator.getPipelineMapTableModel());
 			window.repaint();
 		} catch (Exception e) {
 			JOptionPane.showMessageDialog(window, e.getMessage(), e.getClass()
