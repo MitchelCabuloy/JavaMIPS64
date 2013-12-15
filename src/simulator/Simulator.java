@@ -1,7 +1,6 @@
 package simulator;
 
 import java.math.BigInteger;
-import java.util.HashMap;
 import java.util.Map.Entry;
 
 import models.Code;
@@ -16,7 +15,9 @@ import exceptions.RegisterOutOfBoundsException;
 public class Simulator {
 	private Memory memory;
 	private Registers registers;
-	private HashMap<String, Boolean> flags;
+	private boolean squashFlag;
+	private int stallCounter;
+	private int cycleCount;
 
 	public Simulator() {
 		this.memory = new Memory();
@@ -43,9 +44,9 @@ public class Simulator {
 			throws RegisterOutOfBoundsException, MemoryOutOfRangeException {
 		memory = new Memory();
 		registers = new Registers();
-		flags = new HashMap<String, Boolean>();
-		flags.put("stall", false);
-		flags.put("squash", false);
+		squashFlag = false;
+		stallCounter = 0;
+		cycleCount = 0;
 
 		// Load registers
 		for (Entry<String, Object> entry : program.getRegisters().entrySet()) {
@@ -96,42 +97,63 @@ public class Simulator {
 
 	public void step() throws RegisterOutOfBoundsException,
 			MemoryOutOfRangeException {
-		if(flags.get("squash")){
+		if (isStalled()) {
+			stallCounter = 3;
+		}
+
+		if (squashFlag) {
+			// Remove last cycle's IF/ID.IR
 			registers.setRegister("IF/ID.IR", 0L);
 			registers.commit();
 		}
-		
-		// Instruction fetch
-		// Set IF/ID.IR to Memory[PC]
-		registers.setRegister("IF/ID.IR", ByteUtils.getUnsignedInt(memory
-				.getCodeSegment((int) (registers.getRegister("PC") / 4))));
-		// Set PC <- PC + 4
-		registers.setRegister("PC", registers.getRegister("PC") + 4);
-		// Pipeline #2 doesn't have NPC
 
-		// Instruction decode
-		registers.setRegister("ID/EX.IR", registers.getRegister("IF/ID.IR"));
-		registers.setRegister("ID/EX.A", registers.getRegister(ByteUtils
-				.getRS((int) registers.getRegister("IF/ID.IR"))));
-		registers.setRegister("ID/EX.B", registers.getRegister(ByteUtils
-				.getRT((int) registers.getRegister("IF/ID.IR"))));
-		registers.setRegister("ID/EX.Imm",
-				ByteUtils.getImm((int) registers.getRegister("IF/ID.IR")));
-		// Set PC here because Pipeline #2
-		if (ByteUtils.getOpcode((int) registers.getRegister("IF/ID.IR")) == 2) { // J
-			registers.setRegister("PC", ByteUtils.getJOffset((int) registers
-					.getRegister("IF/ID.IR")) * 4);
-			// Since we're branching, squash the IF/ID.IR
-			flags.put("squash", true);
-		} else if (ByteUtils.getOpcode((int) registers.getRegister("IF/ID.IR")) == 5
-				&& ByteUtils.getRS((int) registers.getRegister("IF/ID.IR")) != 0) { // BNEZ
-			registers.setRegister(
-					"PC",
-					registers.getRegister("PC")
-							+ (ByteUtils.getImm((int) registers
-									.getRegister("IF/ID.IR")) * 4));
-			// Since we're branching, squash the IF/ID.IR
-			flags.put("squash", true);
+		// Detect stall here, and set stallCounter = 3
+
+		// Instruction fetch
+		if (stallCounter == 0) {
+			// Set IF/ID.IR to Memory[PC]
+			registers.setRegister("IF/ID.IR", ByteUtils.getUnsignedInt(memory
+					.getCodeSegment((int) (registers.getRegister("PC") / 4))));
+			// Set PC <- PC + 4
+			registers.setRegister("PC", registers.getRegister("PC") + 4);
+			// Pipeline #2 doesn't have NPC
+
+			// Instruction decode
+			registers
+					.setRegister("ID/EX.IR", registers.getRegister("IF/ID.IR"));
+			registers.setRegister("ID/EX.A", registers.getRegister(ByteUtils
+					.getRS((int) registers.getRegister("IF/ID.IR"))));
+			registers.setRegister("ID/EX.B", registers.getRegister(ByteUtils
+					.getRT((int) registers.getRegister("IF/ID.IR"))));
+			registers.setRegister("ID/EX.Imm",
+					ByteUtils.getImm((int) registers.getRegister("IF/ID.IR")));
+
+			// Set PC here because Pipeline #2
+			if (ByteUtils.getOpcode((int) registers.getRegister("IF/ID.IR")) == 2) { // J
+				registers.setRegister("PC",
+						ByteUtils.getJOffset((int) registers
+								.getRegister("IF/ID.IR")) * 4);
+				// Since we're branching, squash the IF/ID.IR
+				squashFlag = true;
+			} else if (ByteUtils.getOpcode((int) registers
+					.getRegister("IF/ID.IR")) == 5
+					&& ByteUtils.getRS((int) registers.getRegister("IF/ID.IR")) != 0) { // BNEZ
+				registers.setRegister(
+						"PC",
+						registers.getRegister("PC")
+								+ (ByteUtils.getImm((int) registers
+										.getRegister("IF/ID.IR")) * 4));
+				// Since we're branching, squash the IF/ID.IR
+				squashFlag = true;
+			}
+
+		} else {
+			// Clear out ID/EX.IR registers so EX won't read them next cycle.
+			registers.setRegister("ID/EX.IR", 0L);
+			registers.setRegister("ID/EX.A", 0L);
+			registers.setRegister("ID/EX.B", 0L);
+			registers.setRegister("ID/EX.Imm", 0L);
+			stallCounter--;
 		}
 
 		// Execute
@@ -177,9 +199,33 @@ public class Simulator {
 
 		registers.commit();
 		memory.commit();
+		cycleCount++;
 
 		// System.out.println("STEP");
 		// this.registers.seeRegisters();
 		// this.memory.seeMemory();
+	}
+
+	private boolean isStalled() throws RegisterOutOfBoundsException {
+
+		long IDEX_RD = ByteUtils.getRD((int) registers.getRegister("ID/EX.IR"));
+		long IFID_RS = ByteUtils.getRS((int) registers.getRegister("IF/ID.IR"));
+		long IFID_RT = ByteUtils.getRT((int) registers.getRegister("IF/ID.IR"));
+		
+		// If J, no dep
+		if (ByteUtils.getOpcode((int) registers.getRegister("IF/ID.IR")) == 2)
+			return false;
+
+		// No dependencies if we're dealing with R0
+		if (IDEX_RD != 0 && IFID_RS != 0 && IFID_RT != 0) {
+			// if there's a dependency
+			if (IDEX_RD == IFID_RS || IDEX_RD == IFID_RT) {
+				return true;
+			}
+		}
+
+		return false;
+
+		// return true;
 	}
 }
