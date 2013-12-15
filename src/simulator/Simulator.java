@@ -216,6 +216,10 @@ public class Simulator {
 		}
 
 		updatePipeline();
+		
+		if(stallCounter != 0){
+			stallCounter--;
+		}
 
 		registers.commit();
 		memory.commit();
@@ -273,7 +277,12 @@ public class Simulator {
 		// If there's something in there
 		if (IFID_IR != 0) {
 			// Add it to the pipeline
-			pipeline.put(IFID_IR, "IF");
+			// pipeline.put(IFID_IR, "IF");
+			if (stallCounter != 0) {
+				pipeline.put(IFID_IR, "*");
+			} else {
+				pipeline.put(IFID_IR, "IF");
+			}
 		}
 
 		long IDEX_IR = registers.getRegister("IF/ID.IR");
@@ -283,7 +292,6 @@ public class Simulator {
 			// Add it to the pipeline
 			if (stallCounter != 0) {
 				pipeline.put(IDEX_IR, "*");
-				stallCounter--;
 			} else {
 				pipeline.put(IDEX_IR, "ID");
 			}
