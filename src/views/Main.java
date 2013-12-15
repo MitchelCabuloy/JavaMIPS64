@@ -172,29 +172,9 @@ public class Main extends JFrame {
 		pipelineMap = new JTable();
 		pipelineMap.setShowGrid(false);
 		pipelineMap.setEnabled(false);
-		pipelineMap.setModel(new DefaultTableModel(new Object[][] {
-				{ null, null, null, null, null, null, null, null, null, null,
-						null, null, null, null, null },
-				{ null, null, null, null, null, null, null, null, null, null,
-						null, null, null, null, null },
-				{ null, null, null, null, null, null, null, null, null, null,
-						null, null, null, null, null },
-				{ null, null, null, null, null, null, null, null, null, null,
-						null, null, null, null, null },
-				{ null, null, null, null, null, null, null, null, null, null,
-						null, null, null, null, null },
-				{ null, null, null, null, null, null, null, null, null, null,
-						null, null, null, null, null },
-				{ null, null, null, null, null, null, null, null, null, null,
-						null, null, null, null, null },
-				{ null, null, null, null, null, null, null, null, null, null,
-						null, null, null, null, null },
-				{ null, null, null, null, null, null, null, null, null, null,
-						null, null, null, null, null },
-				{ null, null, null, null, null, null, null, null, null, null,
-						null, null, null, null, null }, }, new String[] {
-				"Instruction", "", "", "", "", "", "", "", "", "", "", "", "",
-				"", "" }));
+		pipelineMap.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+		pipelineMap.setModel(new DefaultTableModel(new Object[][] {},
+				new String[] { "Instruction" }));
 		spPipeline.setViewportView(pipelineMap);
 
 		btnStep = new JButton("Step");
