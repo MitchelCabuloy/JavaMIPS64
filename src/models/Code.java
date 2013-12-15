@@ -1,18 +1,20 @@
 package models;
 
-import exceptions.InvalidSyntaxException;
-import exceptions.RegisterOutOfBoundsException;
+import java.util.HashMap;
+
 import util.ByteUtils;
 import architecture.Decoder;
+import exceptions.InvalidSyntaxException;
+import exceptions.RegisterOutOfBoundsException;
 
 public class Code {
 	private int address;
 	private int instruction;
 	private String codeString;
 
-	public Code(String codeString) throws InvalidSyntaxException, RegisterOutOfBoundsException {
+	public Code(String codeString, HashMap<Integer, Integer> labels, int lineNumber) throws InvalidSyntaxException, RegisterOutOfBoundsException {
 		this.codeString = codeString;
-		this.instruction = Decoder.decode(codeString);
+		this.instruction = Decoder.decode(codeString, labels, lineNumber);
 	}
 
 	public int getInstruction() {

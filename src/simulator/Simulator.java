@@ -106,6 +106,7 @@ public class Simulator {
 			// Remove last cycle's IF/ID.IR
 			registers.setRegister("IF/ID.IR", 0L);
 			registers.commit();
+			squashFlag = false;
 		}
 
 		// Instruction fetch

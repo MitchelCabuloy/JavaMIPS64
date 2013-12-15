@@ -9,6 +9,8 @@ import java.util.Map.Entry;
 
 import org.yaml.snakeyaml.Yaml;
 
+import architecture.Decoder;
+
 public class Program {
 	private Map<String, Object> registers;
 	private Map<Integer, Byte> memory;
@@ -31,11 +33,15 @@ public class Program {
 
 		codeStrings = new ArrayList<String>(Arrays.asList(((String) map
 				.get("code")).split("\n")));
-
+		
+		HashMap<Integer, Integer> labels = Decoder.parseLabels(codeStrings);
+		
 		codes = new ArrayList<Code>();
 
+		int lineNumber = 0;
 		for (String codeString : codeStrings) {
-			codes.add(new Code(codeString));
+			codes.add(new Code(codeString, labels, lineNumber));
+			lineNumber++;
 		}
 
 	}

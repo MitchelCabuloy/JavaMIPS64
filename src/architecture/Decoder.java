@@ -1,5 +1,6 @@
 package architecture;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -56,8 +57,9 @@ public class Decoder {
 		return tempMap;
 	}
 
-	public static int decode(String codeString) throws InvalidSyntaxException,
-			RegisterOutOfBoundsException {
+	public static int decode(String codeString,
+			HashMap<Integer, Integer> labels, int lineNumber)
+			throws InvalidSyntaxException, RegisterOutOfBoundsException {
 		for (Pattern pattern : patterns) {
 			Matcher m = pattern.matcher(codeString);
 
@@ -109,9 +111,11 @@ public class Decoder {
 					// Imm
 					// If Label
 					if (m.group(4).toUpperCase().contains("L")) {
-						m.group(4).substring(1);
 						// TODO: do something smart
-						sb.append("0000000000000000");
+						sb.append(ByteUtils.getBinaryString(
+								labels.get(Integer.parseInt(m.group(4)
+										.substring(1))) - (lineNumber + 1))
+								.substring(16));
 					} else if (m.group(4).contains("#")) { // Line number
 						sb.append(ByteUtils.getBinaryString(
 								Integer.parseInt(m.group(4).substring(1), 16))
@@ -153,7 +157,9 @@ public class Decoder {
 				case "J":
 					if (m.group(3).toUpperCase().contains("L")) {
 						// TODO: do something smart with L
-						sb.append("00000000000000000000000000");
+						sb.append(ByteUtils.getBinaryString(
+								labels.get(Integer.parseInt(m.group(3)
+										.substring(1)))).substring(6));
 					} else {
 						sb.append(ByteUtils.getBinaryString(
 								Integer.parseInt(m.group(3).substring(1), 16))
@@ -168,5 +174,29 @@ public class Decoder {
 		}
 
 		throw new InvalidSyntaxException(codeString);
+	}
+
+	public static HashMap<Integer, Integer> parseLabels(
+			ArrayList<String> codeStrings) {
+		HashMap<Integer, Integer> labels = new HashMap<Integer, Integer>();
+
+		int lineNumber = 0;
+		for (String codeString : codeStrings) {
+			for (Pattern pattern : patterns) {
+				Matcher m = pattern.matcher(codeString);
+
+				if (m.find()) {
+					if (m.group(1) != null) {
+						labels.put(
+								Integer.parseInt(m.group(1).substring(1,
+										m.group(1).length() - 2)), lineNumber);
+					}
+				}
+			}
+
+			lineNumber++;
+		}
+
+		return labels;
 	}
 }
