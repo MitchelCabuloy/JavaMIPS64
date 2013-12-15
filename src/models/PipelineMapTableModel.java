@@ -86,7 +86,7 @@ public class PipelineMapTableModel extends AbstractTableModel{
 	public Object getValueAt(int rowIndex, int columnIndex) {
 		try {
 			if(columnIndex == 0){
-				return String.format("%08x", (Long)pipelineMap.get(rowIndex).get(columnIndex));
+				return String.format("%08X", (Long)pipelineMap.get(rowIndex).get(columnIndex));
 			}
 			return pipelineMap.get(rowIndex).get(columnIndex);
 		} catch (Exception e) {
